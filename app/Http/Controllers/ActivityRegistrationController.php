@@ -46,17 +46,23 @@ class ActivityRegistrationController extends Controller
         ]);
 
         $data = [
-            // 'activity_id' => $activity_id,
-            // 'activity_schedule_id' => $activity_schedule_id,
-            // 'user_id' => $user->id,
             'present' => false,
             'registration_number' => 0
         ];
-       
-        ActivityRegistration::create($request->all() + $data);
 
-        return redirect()->route('home')
-                        ->with('success','Activity Registration created successfully.');
+        $check_registered = ActivityRegistration::where('user_id', $request['user_id'])
+                            ->where('date', $request['date'])
+                            ->where('activity_id', $request['activity_id'])
+                            ->where('activity_schedule_id', $request['activity_schedule_id'])
+                            ->get();
+
+        if (count($check_registered) == 0) {
+            ActivityRegistration::create($request->all() + $data);
+            return redirect()->route('home')
+                            ->with('success','Activity Registration created successfully.');
+        } else {
+            return back()->withInput()->withErrors(['Anda telah mendaftar untuk ibadah ini']);;
+        }
     }
 
     /**

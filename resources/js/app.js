@@ -49,16 +49,18 @@ $(".datepicker").datepicker(
 });
 
 $('select[name=activity_id]').change(function() {
-
-    var url = 'activity/' + $(this).val() + '/schedule/';
-
-    $.get(url, function(data) {
-        var select = $('form select[name= activity_schedule_id]');
-
-        select.empty();
-
-        $.each(data,function(key, value) {
-            select.append('<option value=' + value.id + '>' + value.name + '</option>');
+    if ($(this).val() != '') {
+        var url = 'activity/' + $(this).val() + '/schedule/';    
+        $.get(url, function(data) {
+            var select = $('form select[name= activity_schedule_id]');    
+            select.empty();    
+            $.each(data,function(key, value) {
+                select.append('<option value=' + value.id + '>' + value.name + '</option>');
+            });
         });
-    });
+    } else {
+        var select = $('form select[name= activity_schedule_id]'); 
+        select.empty();
+        select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+    }
 });

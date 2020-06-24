@@ -51936,14 +51936,20 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(".datepicker").datepicker({
   }
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()('select[name=activity_id]').change(function () {
-  var url = 'activity/' + jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() + '/schedule/';
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
+  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() != '') {
+    var url = 'activity/' + jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() + '/schedule/';
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
+      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name= activity_schedule_id]');
+      select.empty();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (key, value) {
+        select.append('<option value=' + value.id + '>' + value.name + '</option>');
+      });
+    });
+  } else {
     var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name= activity_schedule_id]');
     select.empty();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (key, value) {
-      select.append('<option value=' + value.id + '>' + value.name + '</option>');
-    });
-  });
+    select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+  }
 });
 
 /***/ }),
