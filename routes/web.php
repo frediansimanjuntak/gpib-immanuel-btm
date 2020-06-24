@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/user', 'UserController@index')->name('user')->middleware('user');
+Route::put('/user/{user}/update', 'UserController@update')->name('user.update')->middleware('user');
+Route::get('/user/{user}/profile', 'UserController@show')->name('user.profile')->middleware('user');
+
 Route::resource('activity_registrations', 'ActivityRegistrationController');
 Route::get('activity_registrations/activity/{id}/schedule', 'ActivityRegistrationController@getActivitySchedule');
 

@@ -14,10 +14,10 @@ class AddDetailToUserDetailTable extends Migration
     public function up()
     {
         Schema::table('user_details', function (Blueprint $table) {
-            $table->string('indentity_type');
-            $table->string('identity_number');            
-            $table->string('family_card_number');
-            $table->string('gender');
+            $table->string('identity_type')->nullable();
+            $table->string('identity_number')->nullable();            
+            $table->string('family_card_number')->nullable();
+            $table->string('gender')->nullable();
         });
     }
 

@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\UserDetail;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +25,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         return view('user');
     }
 
@@ -46,7 +57,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+        if (!$user_detail) {
+            UserDetail::create([
+                'user_id' => $user->id,
+                'full_name' => $user->name,
+                'confirmed'=> true,
+                'ref_user_id'=> $user->id,
+            ]);
+            $user_detail = UserDetail::where('user_id', $user->id)->first();
+        }
+        return view('user.profile', compact('user', 'user_detail'));
     }
 
     /**
@@ -69,7 +91,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required',
+        ]);
+        $user = User::find($id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+        $user->update($request->all());
+        $user_detail->update($request->all());
+
+        return redirect()->route('user.profile', $id)
+                        ->with('success','User updated successfully');
     }
 
     /**

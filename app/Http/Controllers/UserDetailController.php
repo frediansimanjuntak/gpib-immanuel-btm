@@ -1,25 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Activity;
-use App\ActivitySchedule;
-use App\ActivityRegistration;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ActivityRegistrationController extends Controller
+class UserDetailController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +13,7 @@ class ActivityRegistrationController extends Controller
      */
     public function index()
     {
-        $activity_registrations = ActivityRegistration::with(['user', 'activity', 'activity_schedule'])->latest()->paginate(5);
-        return view('admin.activity_registrations.index', compact('activity_registrations'))
-            ->with('i', (request()->input('page', 1)-1)*5);
+        //
     }
 
     /**
