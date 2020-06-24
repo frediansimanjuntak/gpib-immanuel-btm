@@ -128,7 +128,7 @@ class UserController extends Controller
     public function history($id)
     {
         $user = User::find($id);
-        $activity_registrations = ActivityRegistration::where('user_id', $user->id)->paginate(10);
+        $activity_registrations = ActivityRegistration::where('user_id', $user->id)->orderByDesc('date')->paginate(10);
         return view('user.history', compact('user', 'activity_registrations'))
         ->with('i', (request()->input('page', 1)-1)*10);;
     }

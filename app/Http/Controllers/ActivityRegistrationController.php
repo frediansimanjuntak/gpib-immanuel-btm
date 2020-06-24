@@ -18,7 +18,7 @@ class ActivityRegistrationController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -36,8 +36,8 @@ class ActivityRegistrationController extends Controller
      */
     public function create()
     {
-        $activities = Activity::pluck('name', 'id');
-        $activity_schedules = ActivitySchedule::all();
+        $activities = Activity::where('confirmed', true)->pluck('name', 'id');
+        $activity_schedules = ActivitySchedule::where('confirmed', true)->get();
         return view('user.activity_registrations.create', compact('activities', 'activity_schedules'));
     }
 
@@ -68,8 +68,8 @@ class ActivityRegistrationController extends Controller
 
         if (count($check_registered) == 0) {
             ActivityRegistration::create($request->all() + $data);
-            return redirect()->route('home')
-                            ->with('success','Activity Registration created successfully.');
+            return redirect()->route('user.history', $request['user_id'])
+                            ->with('success','Pendaftaran Ibadah Berhasil.');
         } else {
             return back()->withInput()->withErrors(['Anda telah mendaftar untuk ibadah ini']);;
         }
@@ -122,7 +122,7 @@ class ActivityRegistrationController extends Controller
 
     public function getActivitySchedule($activity_id)
     {
-        $activity_schedules = ActivitySchedule::where('activity_id', $activity_id)->get();
+        $activity_schedules = ActivitySchedule::where('activity_id', $activity_id)->where('confirmed', true)->get();
         return $activity_schedules;
     }
 }

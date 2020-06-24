@@ -4,16 +4,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">HISTORY DAFTAR IBADAH</div>
-
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     <table class="table mb-none">
                         <thead>
                             <tr>
@@ -28,7 +26,7 @@
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $activity_registration->activity->name }}</td>
-                                    <td>{{ $activity_registration->activity_schedule->name }}</td>
+                                    <td>{{ $activity_registration->activity_schedule->name }} ({{ $activity_registration->activity_schedule->start_time }} - {{ $activity_registration->activity_schedule->end_time }})</td>
                                     <td>{{ $activity_registration->date }}</td>
                                 </tr>
                             @endforeach
