@@ -11,7 +11,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Activity Registration</span></li>
+                <li><span>Pendaftar Ibadah</span></li>
             </ol>
         </div>
     </header>
@@ -33,7 +33,7 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Activity Registration</h2>
+                    <h2 class="panel-title">Data Pendaftar Ibadah</h2>
                 </header>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -42,9 +42,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>User</th>
-                                    <th>Activity</th>
-                                    <th>Schedule</th>
-                                    <th>Date</th>
+                                    <th>Ibadah</th>
+                                    <th>Jadwal Ibadah</th>
+                                    <th>Tanggal Ibadah</th>
                                     <th>Registration Number</th>
                                 </tr>
                             </thead>

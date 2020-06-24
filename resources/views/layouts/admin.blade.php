@@ -114,13 +114,13 @@
 									<li class="{{set_nav_active('admin.activities.index')}}">
 										<a href="{{route('admin.activities.index')}}">
 											<i class="fa fa-building" aria-hidden="true"></i>
-											<span>Activity</span>
+											<span>Data Ibadah</span>
 										</a>
 									</li>		
 									<li class="{{set_nav_active('admin.activity_registrations.index')}}">
 										<a href="{{route('admin.activity_registrations.index')}}">
 											<i class="fa fa-building" aria-hidden="true"></i>
-											<span>Activity Registration</span>
+											<span>Data Pendaftar Ibadah</span>
 										</a>
 									</li>					
 								</ul>

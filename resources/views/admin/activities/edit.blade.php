@@ -2,7 +2,7 @@
 @section('content')
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Ubah Activity</h2>
+        <h2>Ubah Data Ibadah</h2>
     
         <div class="right-wrapper pull-right mr-md">
             <ol class="breadcrumbs mr-xl">
@@ -13,7 +13,7 @@
                 </li>
                 <li>
                     <a href="{{route('admin.activities.index')}}">
-                        <span>Activity</span>
+                        <span>Data Ibadah</span>
                     </a>
                 </li>
                 <li><span>Ubah</span></li>
@@ -22,7 +22,7 @@
     </header>
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -39,7 +39,7 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Ubah Activity</h2>
+                    <h2 class="panel-title">Ubah Data Ibadah</h2>
                 </header>
                 <div class="panel-body">
                     <form action="{{ route('admin.activities.update', $activity->id) }}" method="POST" enctype="multipart/form-data"> 
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <a class="btn btn-danger" href="{{ route('admin.activities.index') }}"> Back</a>
+                            <a class="btn btn-danger" href="{{ route('admin.activities.index') }}"> Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
@@ -72,8 +72,8 @@
             </section>
             <section class="panel">
                 <header class="panel-heading">
-                    <a class="btn btn-success pull-right" href="{{ route('admin.activities.activity_schedules.create', $activity->id) }}"> Tambah Activity Schedule</a>
-                    <h2 class="panel-title">Activity Schedules</h2>
+                    <a class="btn btn-success pull-right" href="{{ route('admin.activities.activity_schedules.create', $activity->id) }}"> Tambah Jadwal Ibadah</a>
+                    <h2 class="panel-title">Jadwal Ibadah</h2>
                 </header>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -81,7 +81,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Activity</th>
+                                    <th>Nama Jadwal</th>
                                     <th>Waktu</th>
                                     <th>Confirmed</th>
                                     <th width="280px">Action</th>

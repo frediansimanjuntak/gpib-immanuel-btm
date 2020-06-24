@@ -142,7 +142,7 @@
                             <div class="col-md-12">
                                 <div class="form-group text-right">
                                     <div class="col-md-12">
-                                        <a class="btn btn-danger" href="{{ route('home') }}"> Back</a>
+                                        <a class="btn btn-danger" href="{{ route('home') }}"> Kembali</a>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </div>

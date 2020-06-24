@@ -11,7 +11,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Activities</span></li>
+                <li><span>Data Ibadah</span></li>
             </ol>
         </div>
     </header>
@@ -24,7 +24,7 @@
             @endif
         </div>
         <div class="col-md-6">
-            <a class="btn btn-success pull-right" href="{{ route('admin.activities.create') }}"> Tambah Activity</a>
+            <a class="btn btn-success pull-right" href="{{ route('admin.activities.create') }}"> Tambah Data Ibadah</a>
         </div>
     </div>
     <div class="row">
@@ -36,7 +36,7 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Activity</h2>
+                    <h2 class="panel-title">Data Ibadah</h2>
                 </header>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -44,7 +44,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Activity</th>
+                                    <th>Ibadah</th>
                                     <th>Confirmed</th>
                                     <th width="280px">Action</th>
                                 </tr>

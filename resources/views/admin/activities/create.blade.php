@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <a class="btn btn-danger" href="{{ route('admin.activities.index') }}"> Back</a>
+                            <a class="btn btn-danger" href="{{ route('admin.activities.index') }}"> Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>

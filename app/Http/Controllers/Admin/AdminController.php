@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
+use App\ActivityRegistration;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
+        $users = User::count();
+        $activity_registrations = ActivityRegistration::count();
+        return view('admin.home', compact('users', 'activity_registrations'));
     }
 
     /**
