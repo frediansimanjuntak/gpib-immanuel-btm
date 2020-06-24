@@ -41,6 +41,8 @@ class ActivityRegistrationController extends Controller
     {
         $request->validate([
             'date' => 'required',
+            'activity_id' => 'required',
+            'activity_schedule_id' => 'required'
         ]);
 
         $data = [
@@ -100,5 +102,11 @@ class ActivityRegistrationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getActivitySchedule($activity_id)
+    {
+        $activity_schedules = ActivitySchedule::where('activity_id', $activity_id)->get();
+        return $activity_schedules;
     }
 }

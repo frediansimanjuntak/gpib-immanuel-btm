@@ -30,3 +30,35 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+import 'jquery-ui/ui/widgets/datepicker.js';
+
+// Setup date only sunday endabled
+$(".datepicker").datepicker(
+    {
+    beforeShowDay: function (date) {
+
+    if (date.getDay() == 0) {
+        return [true, ''];
+    }
+    return [false, ''];
+   }
+});
+
+$('select[name=activity_id]').change(function() {
+
+    var url = 'activity/' + $(this).val() + '/schedule/';
+
+    $.get(url, function(data) {
+        var select = $('form select[name= activity_schedule_id]');
+
+        select.empty();
+
+        $.each(data,function(key, value) {
+            select.append('<option value=' + value.id + '>' + value.name + '</option>');
+        });
+    });
+});

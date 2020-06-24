@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/user', 'UserController@index')->name('user')->middleware('user');
 Route::resource('activity_registrations', 'ActivityRegistrationController');
+Route::get('activity_registrations/activity/{id}/schedule', 'ActivityRegistrationController@getActivitySchedule');
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Controllers Within The "App\Http\Controllers\Admin" Namespace
