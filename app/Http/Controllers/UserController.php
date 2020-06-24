@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\UserDetail;
+use App\Activity;
+use App\ActivitySchedule;
+use App\ActivityRegistration;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -114,5 +117,19 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function history($id)
+    {
+        $user = User::find($id);
+        $activity_registrations = ActivityRegistration::where('user_id', $user->id)->paginate(10);
+        return view('user.history', compact('user', 'activity_registrations'))
+        ->with('i', (request()->input('page', 1)-1)*10);;
     }
 }
