@@ -6,6 +6,9 @@ use App\User;
 use App\Activity;
 use App\ActivitySchedule;
 use App\TicketRegistration;
+use App\ActivityRegistration;
+use App\Exports\ActivityRegistrationExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -20,7 +23,7 @@ class TicketRegistrationController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -148,5 +151,13 @@ class TicketRegistrationController extends Controller
     {
         $activity_schedules = ActivitySchedule::where('activity_id', $activity_id)->where('confirmed', true)->get();
         return $activity_schedules;
+    }
+
+    public function export_excel($id)
+    {
+        $ticket = TicketRegistration::find($id);
+        $activity_registration = ActivityRegistration::where('ticket_registration_id', $ticket->id)->where('cancelled', false)->get();
+        
+        return Excel::download(new ActivityRegistrationExport($activity_registration), '"'.$ticket->date.'"-"'.$ticket->activity->name.'"-"'.$ticket->activity_schedule->name.'"-excel.xlsx');
     }
 }

@@ -39,6 +39,7 @@ Route::get('activity_registrations/{id}/cancelled/{user_id}', 'ActivityRegistrat
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     // Controllers Within The "App\Http\Controllers\Admin" Namespace
     Route::get('/home', 'AdminController@index')->name('home');
+    Route::get('/ticket_registrations/{id}/export_excel', 'TicketRegistrationController@export_excel')->name('export.activity_registration');
     Route::resource('activities', 'ActivityController');
     Route::resource('activities.activity_schedules', 'ActivityScheduleController');
     Route::resource('activity_registrations', 'ActivityRegistrationController');

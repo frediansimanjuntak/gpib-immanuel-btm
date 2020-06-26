@@ -149,6 +149,7 @@
                     <h2 class="panel-title">List Pendaftar</h2>
                 </header>
                 <div class="panel-body">
+                    <a class="btn btn-success" href="{{ route('admin.export.activity_registration', $ticket->id) }}"> Export to excel</a>
                     <div class="table-responsive">
                         <table class="table mb-none">
                             <thead>
