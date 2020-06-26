@@ -147,7 +147,12 @@ class TicketRegistrationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ticket = TicketRegistration::find($id);
+        ActivityRegistration::where('ticket_registration_id', $ticket->id)->delete();
+        $ticket->delete();
+
+        return redirect()->route('admin.ticket_registrations.index')
+                        ->with('success','Pendaftaran Ibadah berhasil dihapus');
     }
     
     public function getActivitySchedule($activity_id)
