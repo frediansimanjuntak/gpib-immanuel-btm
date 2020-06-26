@@ -195,7 +195,7 @@
                                 @foreach ($family as $fam)
                                     <tr>
                                         <td>{{ ++$i }}</td>
-                                        <td>{{ $fam->user->name }}</td>
+                                        <td>{{ $fam->user->user_detail->full_name }}</td>
                                         <td>{{ $fam->family_status }}</td>
                                         <td>{{ $fam->phone_number }}</td>
                                         <td>

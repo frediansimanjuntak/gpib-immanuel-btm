@@ -65,7 +65,7 @@ class UserController extends Controller
         $user_created = User::create($request->all() + $data_user);
         if ($user_created) {
             $data_user_detail = [
-                'full_name' => $user->name,
+                'full_name' => $user_created->name,
                 'ref_user_id' => $user->id,
                 'user_id' => $user_created->id,
                 'confirmed' => true
