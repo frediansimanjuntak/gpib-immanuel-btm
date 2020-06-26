@@ -128,6 +128,9 @@ class TicketRegistrationController extends Controller
 
         if (count($check_registered) == 0) {
             $ticket = TicketRegistration::find($id);
+            if ($request['date']) {
+                ActivityRegistration::where('ticket_registration_id', $ticket->id)->update(['date' => $request['date']]);
+            }
             $ticket->update($request->all());
             return redirect()->route('admin.ticket_registrations.index')
                             ->with('success','Ubah Pendaftaran Ibadah Berhasil.');

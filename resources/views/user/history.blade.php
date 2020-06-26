@@ -18,9 +18,9 @@
                                 <th>No.</th>
                                 <th>No. Registrasi</th>
                                 <th>Nama</th>
-                                <th>Ibadah</th>
-                                <th>Sesi Ibadah</th>
-                                <th>Jadwal</th>
+                                <th>Lokasi Ibadah</th>
+                                <th>Jadwal Ibadah</th>
+                                <th>Tanggal Ibadah</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -32,8 +32,8 @@
                                         <td>{{ $activity_registration->registration_number }}</td>
                                         <td>{{ $activity_registration->user->user_detail->full_name }}</td>
                                         <td>{{ $activity_registration->activity->name }}</td>
-                                        <td>{{ $activity_registration->activity_schedule->name }} ({{ $activity_registration->activity_schedule->start_time }} - {{ $activity_registration->activity_schedule->end_time }})</td>
-                                        <td>{{ $activity_registration->date }}</td>       
+                                        <td>{{ $activity_registration->activity_schedule->name }} ({{ \Carbon\Carbon::parse($activity_registration->activity_schedule->start_time)->isoFormat('hh:mm')}} - {{ \Carbon\Carbon::parse($activity_registration->activity_schedule->end_time)->isoFormat('hh:mm') }})</td>
+                                        <td>{{ \Carbon\Carbon::parse($activity_registration->date)->isoFormat('dddd, D MMMM Y') }}</td>       
                                         <td>
                                             @if($activity_registration->available_registration())
                                                 <a class="btn btn-danger" href="{{ route('activity_registration.cancelled', [$activity_registration->id, Auth::user()->id]) }}">Cancel</a>
