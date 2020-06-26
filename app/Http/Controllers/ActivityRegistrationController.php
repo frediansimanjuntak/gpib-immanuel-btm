@@ -7,6 +7,7 @@ use App\ActivitySchedule;
 use App\ActivityRegistration;
 use App\TicketRegistration;
 use App\User;
+use App\UserDetail;
 use Illuminate\Http\Request;
 
 class ActivityRegistrationController extends Controller
@@ -65,7 +66,6 @@ class ActivityRegistrationController extends Controller
             return back()->withInput()->withErrors(['Pendaftaran untuk tanggal tersebut tidak dibuka']);
         } else {
             $user_ids = $request['user_ids'];
-
             $check_registered = ActivityRegistration::whereIn('user_id', $user_ids)
                 ->where('date', $ticket_registration->date)
                 ->where('cancelled', false)
@@ -77,6 +77,16 @@ class ActivityRegistrationController extends Controller
                 if ($ticket_registration->remaining_slot() > count($user_ids)) {
                     foreach ($user_ids as $user_id) {                
                         $user_detail = User::find($user_id);
+                        $user_detail_data = UserDetail::where('user_id', $user_detail->id)->first();
+                        if (!$user_detail_data) {
+                            UserDetail::create([
+                                'user_id' => $user_detail->id,
+                                'full_name' => $user_detail->name,
+                                'confirmed'=> true,
+                                'ref_user_id'=> $user_detail->id,
+                            ]);
+                        }
+
                         $data = [
                             'date' => $ticket_registration->date,
                             'present' => false,

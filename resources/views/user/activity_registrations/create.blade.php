@@ -69,19 +69,23 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-12 control-label" for="inputDefault">Pilih Anggota Keluarga</label>
-                            <div class="col-md-12">
-                                @foreach (Auth::user()->family_member() as $family)
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="user_ids[]" value="{{ $family->user->id }}">
-                                            {{ $family->full_name }}
-                                        </label>
-                                    </div>                                    
-                                @endforeach
+                        @if (count(Auth::user()->family_member()) > 1)
+                            <div class="form-group">
+                                <label class="col-md-12 control-label" for="inputDefault">Pilih Anggota Keluarga</label>
+                                <div class="col-md-12">
+                                    @foreach (Auth::user()->family_member() as $family)
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="user_ids[]" value="{{ $family->user->id }}">
+                                                {{ $family->full_name }}
+                                            </label>
+                                        </div>                                    
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <input type="hidden" name="user_ids[]" value="{{Auth::user()->id}}">
+                        @endif
                         <div class="form-group text-right">
                             <div class="col-md-12">
                                 <a class="btn btn-danger" href="{{ route('home') }}"> Kembali</a>
