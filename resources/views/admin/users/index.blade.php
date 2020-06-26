@@ -11,7 +11,7 @@
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
-                <li><span>Pendaftar Ibadah</span></li>
+                <li><span>Data User</span></li>
             </ol>
         </div>
     </header>
@@ -23,6 +23,9 @@
                 </div>
             @endif
         </div>
+        <div class="col-md-6">
+            {{-- <a class="btn btn-success pull-right" href="{{ route('admin.activities.create') }}"> Tambah User</a> --}}
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -33,7 +36,7 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Data Pendaftar Ibadah</h2>
+                    <h2 class="panel-title">Data User</h2>
                 </header>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -41,29 +44,39 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>User</th>
-                                    <th>Ibadah</th>
-                                    <th>Jadwal Ibadah</th>
-                                    <th>Tanggal Ibadah</th>
-                                    <th>Registration Number</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Referensi User</th>
+                                    <th width="280px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($activity_registrations as $act_regist)
+                                @foreach ($users as $user)
                                     <tr>
                                         <td>{{ ++$i }}</td>
-                                        <td>{{ $act_regist->user->name }}</td>
-                                        <td>{{ $act_regist->activity->name }}</td>
-                                        <td>{{ $act_regist->activity_schedule->name }} ({{$act_regist->activity_schedule->start_time}} - {{$act_regist->activity_schedule->end_time}})</td>
-                                        <td>{{ $act_regist->date }}</td>
-                                        <td>{{ $act_regist->registration_number }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone_number() }}</td>
+                                        <td>{{ $user->user_detail ? $user->user_detail->ref_user_id ? $user->user_detail->ref_user->name : "" : ""}}</td>
+                                        <td>
+                                            <form action="{{ route('admin.users.destroy',$user->id) }}" method="POST">
+
+                                                {{-- <a class="btn btn-primary" href="{{ route('admin.users.edit',$user->id) }}">Detail</a> --}}
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- pagination --}}
-                        {!! $activity_registrations->links() !!}
                     </div>
+                    {{-- pagination --}}
+                    {!! $users->links() !!}
                 </div>
             </section>
         </div>

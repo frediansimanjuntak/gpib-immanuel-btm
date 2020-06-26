@@ -53,7 +53,11 @@
                                 <a class="nav-link" href="{{ route('activity_registrations.create') }}">Daftar Ibadah</a>
                             </li>
                             <li class="nav-item">
+                                @if (Auth::user()->role == 2)
+                                <a class="nav-link" href="{{ route('admin.home') }}">Admin Panel</a>
+                                @else
                                 <a class="nav-link" href="{{ route('user.profile', Auth::user()->id) }}">Profil</a>
+                                @endif
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

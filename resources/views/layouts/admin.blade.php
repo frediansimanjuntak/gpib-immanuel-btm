@@ -117,10 +117,22 @@
 											<span>Data Ibadah</span>
 										</a>
 									</li>		
-									<li class="{{set_nav_active('admin.activity_registrations.index')}}">
+									{{-- <li class="{{set_nav_active('admin.activity_registrations.index')}}">
 										<a href="{{route('admin.activity_registrations.index')}}">
 											<i class="fa fa-building" aria-hidden="true"></i>
-											<span>Data Pendaftar Ibadah</span>
+											<span>List Jemaat Pendaftar Ibadah</span>
+										</a>
+									</li>		 --}}
+									<li class="{{set_nav_active('admin.ticket_registrations.index')}}">
+										<a href="{{route('admin.ticket_registrations.index')}}">
+											<i class="fa fa-building" aria-hidden="true"></i>
+											<span>List Pendaftaran Ibadah</span>
+										</a>
+									</li>		
+									<li class="{{set_nav_active('admin.users.index')}}">
+										<a href="{{route('admin.users.index')}}">
+											<i class="fa fa-building" aria-hidden="true"></i>
+											<span>List User</span>
 										</a>
 									</li>					
 								</ul>
@@ -136,12 +148,5 @@
         @include('layouts.admin.vendor-js-files')
         <!-- Javascript-->	
         @include('layouts.admin.js-bottom-files')
-        <script>
-            $(document).ready(function() {
-                $('.summernote').summernote({
-                    height: 500,
-                });
-            });
-        </script>
     </body>
 </html>

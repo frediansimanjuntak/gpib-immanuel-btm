@@ -8,6 +8,7 @@ use App\Activity;
 use App\ActivitySchedule;
 use App\ActivityRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -36,9 +37,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create($id)
+    {        
+        return view('user.create');
     }
 
     /**
@@ -47,9 +48,33 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $user = User::find($id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+        $email_name = preg_replace('/\s*/', '', $request['name']);
+        $email_name = strtolower($email_name);
+
+        $request['email'] = $request['email'] ? : $email_name.'@gpibimmanuelbtm.co';
+        $data_user = [
+            'password' => Hash::make(\Carbon\Carbon::parse($request['birth_date'])->format('dmY'))
+        ];
+        $user_created = User::create($request->all() + $data_user);
+        if ($user_created) {
+            $data_user_detail = [
+                'full_name' => $user->name,
+                'ref_user_id' => $user->id,
+                'user_id' => $user_created->id,
+                'confirmed' => true
+            ];
+            UserDetail::create($request->all() + $data_user_detail);
+            return redirect()->route('user.profile', $id)
+                            ->with('success','Tambah Keluarga successfully');
+
+        }
     }
 
     /**
@@ -71,7 +96,10 @@ class UserController extends Controller
             ]);
             $user_detail = UserDetail::where('user_id', $user->id)->first();
         }
-        return view('user.profile', compact('user', 'user_detail'));
+
+        $family = UserDetail::where('ref_user_id', $user->id)->whereNotIn('user_id', [$user->id])->paginate(10);
+        return view('user.profile', compact('user', 'user_detail', 'family'))
+        ->with('i', (request()->input('page', 1)-1)*10);
     }
 
     /**
@@ -101,8 +129,12 @@ class UserController extends Controller
         ]);
         $user = User::find($id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
+
+        $data_user_details = [
+            'full_name' => $request['name'],
+        ];
         $user->update($request->all());
-        $user_detail->update($request->all());
+        $user_detail->update($request->all() + $data_user_details);
 
         return redirect()->route('user.profile', $id)
                         ->with('success','User updated successfully');
@@ -128,8 +160,51 @@ class UserController extends Controller
     public function history($id)
     {
         $user = User::find($id);
-        $activity_registrations = ActivityRegistration::where('user_id', $user->id)->orderByDesc('date')->paginate(10);
+        $activity_registrations = ActivityRegistration::orderByDesc('created_at')->paginate(10);
         return view('user.history', compact('user', 'activity_registrations'))
-        ->with('i', (request()->input('page', 1)-1)*10);;
+        ->with('i', (request()->input('page', 1)-1)*10);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_family($ref_user_id, $user_id)
+    {
+        $user = User::find($user_id);
+        return view('user.edit-family', compact('user'));
+    }
+
+    public function update_family(Request $request, $ref_user_id, $user_id)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $user = User::find($user_id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+
+        $data_user_details = [
+            'full_name' => $request['name'],
+        ];
+        $user->update($request->all());
+        $user_detail->update($request->all() + $data_user_details);
+
+        return redirect()->route('user.profile', $ref_user_id)
+                        ->with('success','User updated successfully');
+    }
+
+    public function destroy_family($ref_user_id, $user_id)
+    {
+        $user = User::find($user_id);
+        $user_detail = UserDetail::where('user_id', $user->id)->where('ref_user_id', $ref_user_id)->first();
+        $registeredActivity = ActivityRegistration::where('user_id', $user->id)->get();
+        if($registeredActivity) $registeredActivity->each->delete();
+        if($user_detail) $user_detail->delete();
+        $user->delete();
+
+        return redirect()->route('user.profile', $ref_user_id)
+                        ->with('success','User deleted successfully');        
     }
 }

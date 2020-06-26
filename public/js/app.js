@@ -51924,32 +51924,78 @@ var app = new Vue({
 });
 
 window.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
- // Setup date only sunday endabled
 
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(".datepicker").datepicker({
-  beforeShowDay: function beforeShowDay(date) {
-    if (date.getDay() == 0) {
-      return [true, ''];
-    }
-
-    return [false, ''];
-  }
-});
-jquery__WEBPACK_IMPORTED_MODULE_0___default()('select[name=activity_id]').change(function () {
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() != '') {
-    var url = 'activity/' + jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() + '/schedule/';
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
+  function change_activity_schedule() {
+    var activity_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').val();
+    var url = 'activity/' + activity_id + '/schedule/';
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
-      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name= activity_schedule_id]');
+      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name=activity_schedule_id]');
       select.empty();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (key, value) {
-        select.append('<option value=' + value.id + '>' + value.name + '</option>');
-      });
+
+      if (data.length > 0) {
+        if (data.length == 1) {
+          select.append('<option value="' + data[0].id + '" selected>' + data[0].name + '</option>');
+          change_ticket_registration();
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (key, value) {
+            select.append('<option value="' + value.id + '">' + value.name + '</option>');
+          });
+        }
+      } else {
+        select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+      }
     });
-  } else {
-    var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name= activity_schedule_id]');
-    select.empty();
-    select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
   }
+
+  function change_ticket_registration() {
+    var activity_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').val();
+    var activity_schedule_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_schedule_id').val();
+    var url = 'ticket/' + activity_id + '/' + activity_schedule_id;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
+      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name=ticket_registration_id]');
+      select.empty();
+
+      if (data.length > 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(data, function (key, value) {
+          select.append('<option value=' + value.id + '>' + value.date + '</option>');
+        });
+      } else {
+        select.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+      }
+    });
+  } // Setup date only sunday endabled
+
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".datepicker").datepicker({
+    beforeShowDay: function beforeShowDay(date) {
+      if (date.getDay() == 0) {
+        return [true, ''];
+      }
+
+      return [false, ''];
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').change(function () {
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() != '') {
+      change_activity_schedule();
+    } else {
+      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name=activity_schedule_id]');
+      select.empty();
+      select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_schedule_id').change(function () {
+    console.log(jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').val());
+
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() != '') {
+      change_ticket_registration();
+    } else {
+      var select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('form select[name=ticket_registration_id]');
+      select.empty();
+      select.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+    }
+  });
 });
 
 /***/ }),

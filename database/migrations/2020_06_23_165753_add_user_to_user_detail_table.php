@@ -14,11 +14,15 @@ class AddUserToUserDetailTable extends Migration
     public function up()
     {
         Schema::table('user_details', function (Blueprint $table) {   
-            $table->boolean('confirmed');         
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');      
-            $table->unsignedBigInteger('ref_user_id');
-            $table->foreign('ref_user_id')->references('id')->on('users');
+            $table->boolean('confirmed');   
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onDelete('cascade');                    
+            $table->foreignId('ref_user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onDelete('cascade');
         });
     }
 
@@ -30,7 +34,7 @@ class AddUserToUserDetailTable extends Migration
     public function down()
     {
         Schema::table('user_details', function (Blueprint $table) {
-            //
+            $table->dropForeign(['user_id', 'ref_user_id']);
         });
     }
 }

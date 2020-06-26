@@ -17,8 +17,8 @@ class CreateActivitySchedulesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('start_time');
-            $table->string('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->boolean('confirmed');
             $table->timestamps();
         });

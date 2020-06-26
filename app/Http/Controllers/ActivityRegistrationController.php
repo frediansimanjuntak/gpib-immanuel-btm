@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Activity;
 use App\ActivitySchedule;
 use App\ActivityRegistration;
+use App\TicketRegistration;
+use App\User;
 use Illuminate\Http\Request;
 
 class ActivityRegistrationController extends Controller
@@ -38,7 +40,10 @@ class ActivityRegistrationController extends Controller
     {
         $activities = Activity::where('confirmed', true)->pluck('name', 'id');
         $activity_schedules = ActivitySchedule::where('confirmed', true)->get();
-        return view('user.activity_registrations.create', compact('activities', 'activity_schedules'));
+        
+        $current_date = \Carbon\Carbon::now();
+        $ticket_registrations = TicketRegistration::whereRaw('"'.$current_date.'" between registration_start_date and registration_end_date')->get();
+        return view('user.activity_registrations.create', compact('activities', 'activity_schedules', 'ticket_registrations'));
     }
 
     /**
@@ -50,29 +55,43 @@ class ActivityRegistrationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => 'required',
             'activity_id' => 'required',
-            'activity_schedule_id' => 'required'
+            'activity_schedule_id' => 'required',
+            'user_ids' => 'required'
         ]);
 
-        $data = [
-            'present' => false,
-            'registration_number' => 0
-        ];
-
-        $check_registered = ActivityRegistration::where('user_id', $request['user_id'])
-                            ->where('date', $request['date'])
-                            ->where('activity_id', $request['activity_id'])
-                            ->where('activity_schedule_id', $request['activity_schedule_id'])
-                            ->get();
-
-        if (count($check_registered) == 0) {
-            ActivityRegistration::create($request->all() + $data);
-            return redirect()->route('user.history', $request['user_id'])
-                            ->with('success','Pendaftaran Ibadah Berhasil.');
+        $ticket_registration = TicketRegistration::find($request['ticket_registration_id']);
+        if (!$ticket_registration) {
+            return back()->withInput()->withErrors(['Pendaftaran untuk tanggal tersebut tidak dibuka']);
         } else {
-            return back()->withInput()->withErrors(['Anda telah mendaftar untuk ibadah ini']);;
-        }
+            $user_ids = $request['user_ids'];
+
+            $check_registered = ActivityRegistration::whereIn('user_id', $user_ids)
+                ->where('date', $ticket_registration->date)
+                ->where('cancelled', false)
+                ->get();
+
+            if (count($check_registered) > 0) {
+                return back()->withInput()->withErrors(['Anggota keluarga telah mendaftar untuk ibadah dihari yang sama']);
+            } else {
+                if ($ticket_registration->remaining_slot() > count($user_ids)) {
+                    foreach ($user_ids as $user_id) {                
+                        $user_detail = User::find($user_id);
+                        $data = [
+                            'date' => $ticket_registration->date,
+                            'present' => false,
+                            'registration_number' => $this->generate_registration_number($request['activity_id'], $request['activity_schedule_id'], $ticket_registration->id),
+                            'user_id' => $user_id
+                        ];
+                        ActivityRegistration::create($request->all() + $data);
+                    }
+                    return redirect()->route('user.history', $request['user'])
+                        ->with('success','Pendaftaran Ibadah Berhasil.');
+                } else {
+                    return back()->withInput()->withErrors(['Maaf, Slot ibadah di gereja sudah penuh']);
+                }
+            }
+        }        
     }
 
     /**
@@ -120,9 +139,35 @@ class ActivityRegistrationController extends Controller
         //
     }
 
+    public function cancelled($id, $user_id)
+    {
+        $user = User::find($user_id);
+        $registration = ActivityRegistration::where('id', $id)->where('user_id', $user->id)->update(['cancelled' => true]);
+        return redirect()->route('user.history', $user->id)
+                ->with('success','Cancel Pendaftaran Ibadah Berhasil.');
+    }
+
     public function getActivitySchedule($activity_id)
     {
         $activity_schedules = ActivitySchedule::where('activity_id', $activity_id)->where('confirmed', true)->get();
         return $activity_schedules;
+    }
+
+    public function getTicketRegistration($activity_id, $activity_schedule_id)
+    {
+        $current_date = \Carbon\Carbon::now();
+        $ticket_registrations = TicketRegistration::whereRaw('"'.$current_date.'" between registration_start_date and registration_end_date')->where('activity_id', $activity_id)->where('activity_schedule_id', $activity_schedule_id)->get();
+        return $ticket_registrations;
+    }
+
+    private function generate_registration_number($activity_id, $activity_schedule_id, $ticket_id)
+    {
+        $last_activity = ActivityRegistration::where('activity_id', $activity_id)
+                                                ->where('activity_schedule_id', $activity_schedule_id)
+                                                ->where('ticket_registration_id', $ticket_id)
+                                                ->orderBy('created_at','DESC')->first();
+        $registration_number = $last_activity ? $last_activity->registration_number ? : 0 : 0;
+        $current_registration_number = $registration_number + 1 ;
+        return $current_registration_number; 
     }
 }

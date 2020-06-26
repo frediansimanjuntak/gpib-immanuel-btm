@@ -13,9 +13,11 @@ class AddActivityToActivitySchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::table('activity_schedules', function (Blueprint $table) {
-            $table->unsignedBigInteger('activity_id');
-            $table->foreign('activity_id')->references('id')->on('activities');         
+        Schema::table('activity_schedules', function (Blueprint $table) {         
+            $table->foreignId('activity_id')
+                    ->nullable()
+                    ->constrained('activities')
+                    ->onDelete('cascade');        
         });
     }
 
@@ -27,7 +29,7 @@ class AddActivityToActivitySchedulesTable extends Migration
     public function down()
     {
         Schema::table('activity_schedules', function (Blueprint $table) {
-            $table->dropForeign('activity_schedules_activity_id_foreign');
+            $table->dropForeign(['activity_id']);
         });
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddActivityToActivityRegistrationsTable extends Migration
+class CreateTicketRegistrationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,26 @@ class AddActivityToActivityRegistrationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('activity_registrations', function (Blueprint $table) {
-              
+        Schema::create('ticket_registrations', function (Blueprint $table) {
+            $table->id();
+            $table->string('date');
+            $table->string('max_participants');
+            $table->string('status');
+            $table->date('registration_start_date');
+            $table->date('registration_end_date');
             $table->foreignId('activity_id')
                     ->nullable()
                     ->constrained('activities')
-                    ->onDelete('cascade');                      
+                    ->onDelete('cascade');
             $table->foreignId('activity_schedule_id')
                     ->nullable()
                     ->constrained('activity_schedules')
-                    ->onDelete('cascade');              
-            $table->foreignId('user_id')
+                    ->onDelete('cascade');
+            $table->foreignId('created_by')
                     ->nullable()
                     ->constrained('users')
                     ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -37,8 +43,6 @@ class AddActivityToActivityRegistrationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('activity_registrations', function (Blueprint $table) {
-            $table->dropForeign(['user_id', 'activity_schedule_id', 'activity_id']);
-        });
+        Schema::dropIfExists('ticket_registrations');
     }
 }

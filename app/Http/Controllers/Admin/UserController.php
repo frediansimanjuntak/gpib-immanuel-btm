@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
+use App\UserDetail;
 use App\Activity;
 use App\ActivitySchedule;
+use App\ActivityRegistration;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,7 +21,7 @@ class ActivityController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +29,8 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::latest()->paginate(20);
-        return view('admin.activities.index', compact('activities'))
+        $users = User::latest()->paginate(20);
+        return view('admin.users.index', compact('users'))
             ->with('i', (request()->input('page', 1)-1)*20);
     }
 
@@ -38,7 +41,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        return view('admin.activities.create');
+        //
     }
 
     /**
@@ -49,16 +52,7 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);       
-        $request['confirmed'] = $request['confirmed'] ? true : false;
-       
-        Activity::create($request->all());
-
-        return redirect()->route('admin.activities.index')
-                        ->with('success','Activity created successfully.');
+        //
     }
 
     /**
@@ -69,8 +63,7 @@ class ActivityController extends Controller
      */
     public function show($id)
     {
-        $activity = Activity::find($id);
-        return view('admin.activities.show',compact('activity'));
+        //
     }
 
     /**
@@ -81,9 +74,7 @@ class ActivityController extends Controller
      */
     public function edit($id)
     {
-        $activity = Activity::find($id);
-        $activity_schedules = ActivitySchedule::where('activity_id', $id)->get();
-        return view('admin.activities.edit',compact('activity', 'activity_schedules'));
+        //
     }
 
     /**
@@ -95,17 +86,7 @@ class ActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);
-        $activity = Activity::find($id);
-        $request['confirmed'] = $request['confirmed'] ? true : false;
-
-        $activity->update($request->all());
-
-        return redirect()->route('admin.activities.index')
-                        ->with('success','Activity updated successfully');
+        //
     }
 
     /**
@@ -116,10 +97,14 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-        $activity = Activity::find($id);
-        $activity->delete();
+        $user = User::find($id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+        $registeredActivity = ActivityRegistration::where('user_id', $user->id)->get();
+        if($registeredActivity) $registeredActivity->each->delete();
+        if($user_detail) $user_detail->delete();
+        $user->delete();
 
-        return redirect()->route('admin.activities.index')
-                        ->with('success','Activity deleted successfully');
+        return redirect()->route('admin.users.index')
+                        ->with('success','User deleted successfully');   
     }
 }

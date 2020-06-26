@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ActivitySchedule extends Model
 {
     protected $fillable = [
-        'name', 'description', 'confirmed', 'start_time', 'end_time', 'activity_id'
+        'name', 'description', 'confirmed', 'start_time', 'end_time', 'activity_id', 'max_participants'
     ];
 
     public function activity()

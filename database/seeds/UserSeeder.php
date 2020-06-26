@@ -18,5 +18,11 @@ class UserSeeder extends Seeder
             'password' => Hash::make('passwordadmin'),
             'role' => "2"
         ]);
+
+        DB::table('activities')->insert([
+            'name' => "Ibadah Umum Batu Ampar",
+            'description' => "Ibadah umum hari minggu di batu ampar",
+            'confirmed' => true
+        ]);
     }
 }

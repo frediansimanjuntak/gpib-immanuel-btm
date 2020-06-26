@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\UserDetail;
 
 class User extends Authenticatable
 {
@@ -36,4 +37,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function user_detail()
+    {
+        return $this->hasOne('App\UserDetail', 'user_id', 'id');
+    }
+
+    public function phone_number() 
+    {
+        $user_detail = UserDetail::where('user_id', $this->id)->first();
+        $phone_number = $user_detail ? $user_detail->phone_number ? : "-" : "-";
+        return $phone_number;
+    }
+
+    public function family_member()
+    {
+        return UserDetail::where('ref_user_id', $this->id)->get();
+
+    }
 }

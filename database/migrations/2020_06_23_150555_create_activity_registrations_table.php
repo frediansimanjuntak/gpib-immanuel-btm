@@ -15,7 +15,7 @@ class CreateActivityRegistrationsTable extends Migration
     {
         Schema::create('activity_registrations', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
+            $table->date('date');
             $table->boolean('present');
             $table->string('registration_number');
             $table->timestamps();
