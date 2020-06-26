@@ -82,7 +82,7 @@ class ActivityController extends Controller
     public function edit($id)
     {
         $activity = Activity::find($id);
-        $activity_schedules = ActivitySchedule::where('activity_id', $id)->get();
+        $activity_schedules = ActivitySchedule::where('activity_id', $id)->orderByDesc('created_at')->get();
         return view('admin.activities.edit',compact('activity', 'activity_schedules'));
     }
 

@@ -83,7 +83,7 @@ class ActivityScheduleController extends Controller
     public function edit($activity_id, $activity_schedule_id)
     {        
         $activity = Activity::find($activity_id);
-        $activity_schedule = ActivitySchedule::where('activity_id', $activity_id)->first();
+        $activity_schedule = ActivitySchedule::where('activity_id', $activity_id)->where('id', $activity_schedule_id)->first();
         return view('admin.activities.schedules.edit',compact('activity', 'activity_schedule'));
     }
 
@@ -102,7 +102,7 @@ class ActivityScheduleController extends Controller
             'start_time' => 'required',
             'end_time' => 'required',
         ]);
-        $activity_schedule = ActivitySchedule::where('activity_id', $activity_id)->first();
+        $activity_schedule = ActivitySchedule::where('activity_id', $activity_id)->where('id', $activity_schedule_id)->first();
         $request['confirmed'] = $request['confirmed'] ? true : false;
 
         $activity_schedule->update($request->all()+ ['activity_id' => $activity_id]);
