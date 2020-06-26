@@ -21,7 +21,7 @@
                         @csrf
                         <input type="hidden" name="user" value="{{ Auth::user()->id }}">
                         <div class="form-group">
-                            <label class="col-md-12 control-label" for="inputDefault">Pilih Ibadah</label>
+                            <label class="col-md-12 control-label" for="inputDefault">Pilih Lokasi Ibadah</label>
                             <div class="col-md-12">
                                 <select class="form-control @error('activity_id') is-invalid @enderror" name="activity_id" id="activity_id">   
                                     <option value="">-- Pilih Ibadah --</option>                                      

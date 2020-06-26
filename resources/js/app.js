@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.moment = require('moment');
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,6 +37,16 @@ window.$ = window.jQuery = $;
 
 import 'jquery-ui/ui/widgets/datepicker.js';
 
+function time_format(time) {
+    var formatted = moment(time, 'HH:mm:ss').format('HH:mm');
+    return formatted;
+}
+
+function date_format(date) {
+    moment.locale('id')
+    var formatted = moment.utc(date).format('dddd, D MMMM YYYY');
+    return formatted;
+}
 
 $(document).ready(function(){
 
@@ -52,7 +63,7 @@ $(document).ready(function(){
                 } else {
                     select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
                     $.each(data,function(key, value) {
-                        select.append('<option value="'+ value.id +'">' + value.name + '</option>');
+                        select.append('<option value="'+ value.id +'">' + value.name + ' ('+ time_format(value.start_time) +' - '+ time_format(value.end_time)+')</option>');
                         var select_ticket = $('form select[name=ticket_registration_id]');  
                         select_ticket.empty();   
                         select_ticket.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
@@ -79,15 +90,14 @@ $(document).ready(function(){
         $.get(url, function(data) {
             var select = $('form select[name=ticket_registration_id]');    
             select.empty();   
-            if (data.length > 0) { 
-                console.log(data);
+            if (data.length > 0) {
                 if (data.length == 1) {
-                    select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
-                    select.append('<option value="'+ data[0].id +'" selected>' + data[0].date + '</option>');
+                    select.append('<option value="'+ data[0].id +'" selected>' + date_format(data[0].date) + '</option>');
                     change_remain_slot();
                 } else {
+                    select.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
                     $.each(data,function(key, value) {
-                        select.append('<option value="'+ value.id +'">' + value.date + '</option>');
+                        select.append('<option value="'+ value.id +'">' + date_format(value.date) + '</option>');
                         var remain_slot = $('.remain-slot');    
                         remain_slot.empty();  
                     });
@@ -107,7 +117,7 @@ $(document).ready(function(){
             var remain_slot = $('.remain-slot');    
             remain_slot.empty();   
             if (data.length > 0) { 
-                remain_slot.append("Slot sisa pada ibadah ini: "+data);
+                remain_slot.append("Tempat duduk yang tersedia pada ibadah ini: "+data);
             } else { 
                 remain_slot.empty();
             }
@@ -142,7 +152,6 @@ $(document).ready(function(){
     });
 
     $('#activity_schedule_id').change(function() {
-        console.log($('#activity_id').val());
         if ($(this).val() != '') {
             change_ticket_registration();
         } else {
