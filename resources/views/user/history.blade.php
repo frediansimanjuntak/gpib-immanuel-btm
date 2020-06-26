@@ -16,6 +16,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>No. Registrasi</th>
                                 <th>Nama</th>
                                 <th>Ibadah</th>
                                 <th>Sesi Ibadah</th>
@@ -28,6 +29,7 @@
                                 <tr>
                                     @if ($activity_registration->user->user_detail && $activity_registration->user->user_detail->ref_user_id == Auth::user()->id)
                                         <td>{{ ++$i }}</td>
+                                        <td>{{ $activity_registration->registration_number }}</td>
                                         <td>{{ $activity_registration->user->user_detail->full_name }}</td>
                                         <td>{{ $activity_registration->activity->name }}</td>
                                         <td>{{ $activity_registration->activity_schedule->name }} ({{ $activity_registration->activity_schedule->start_time }} - {{ $activity_registration->activity_schedule->end_time }})</td>

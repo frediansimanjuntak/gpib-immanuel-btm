@@ -56,11 +56,6 @@
                             <div class="col-md-12">
                                 <select class="form-control @error('ticket_registration_id') is-invalid @enderror" name="ticket_registration_id" id="ticket_registration_id">   
                                     <option value="">-- Pilih Tanggal Ibadah --</option> 
-                                    {{-- @foreach ($ticket_registrations as $ticket)
-                                      <option value="{{ $ticket->id }}"> 
-                                          {{ $ticket->date }} 
-                                      </option>
-                                    @endforeach  --}}
                                 </select>
                                 @error('ticket_registration_id')
                                     <span class="invalid-feedback" role="alert">
@@ -68,6 +63,11 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="text-danger remain-slot"></div> 
+                            </div>                           
                         </div>
                         @if (count(Auth::user()->family_member()) > 1)
                             <div class="form-group">

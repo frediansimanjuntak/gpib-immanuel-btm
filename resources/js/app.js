@@ -50,13 +50,24 @@ $(document).ready(function(){
                     select.append('<option value="'+ data[0].id +'" selected>' + data[0].name + '</option>');
                     change_ticket_registration();
                 } else {
+                    select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
                     $.each(data,function(key, value) {
                         select.append('<option value="'+ value.id +'">' + value.name + '</option>');
+                        var select_ticket = $('form select[name=ticket_registration_id]');  
+                        select_ticket.empty();   
+                        select_ticket.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+                        var remain_slot = $('.remain-slot');    
+                        remain_slot.empty();  
                     });
                 }
             }
             else {
                 select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+                var select_ticket = $('form select[name=ticket_registration_id]');  
+                select_ticket.empty();   
+                select_ticket.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+                var remain_slot = $('.remain-slot');    
+                remain_slot.empty();  
             }
         });
     }
@@ -69,11 +80,36 @@ $(document).ready(function(){
             var select = $('form select[name=ticket_registration_id]');    
             select.empty();   
             if (data.length > 0) { 
-                $.each(data,function(key, value) {
-                    select.append('<option value=' + value.id + '>' + value.date + '</option>');
-                });
+                console.log(data);
+                if (data.length == 1) {
+                    select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+                    select.append('<option value="'+ data[0].id +'" selected>' + data[0].date + '</option>');
+                    change_remain_slot();
+                } else {
+                    $.each(data,function(key, value) {
+                        select.append('<option value="'+ value.id +'">' + value.date + '</option>');
+                        var remain_slot = $('.remain-slot');    
+                        remain_slot.empty();  
+                    });
+                }
             } else {
                 select.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+                var remain_slot = $('.remain-slot');    
+                remain_slot.empty();  
+            }
+        });
+    }
+
+    function change_remain_slot() {
+        var ticket_id = $('#ticket_registration_id').val();
+        var url = 'remain-slot/'+ ticket_id;    
+        $.get(url, function(data) {
+            var remain_slot = $('.remain-slot');    
+            remain_slot.empty();   
+            if (data.length > 0) { 
+                remain_slot.append("Slot sisa pada ibadah ini: "+data);
+            } else { 
+                remain_slot.empty();
             }
         });
     }
@@ -97,6 +133,11 @@ $(document).ready(function(){
             var select = $('form select[name=activity_schedule_id]'); 
             select.empty();
             select.append('<option value="">-- Pilih Jadwal Ibadah --</option>');
+            var select_ticket = $('form select[name=ticket_registration_id]'); 
+            select_ticket.empty();
+            select_ticket.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+            var remain_slot = $('.remain-slot');    
+            remain_slot.empty(); 
         }
     });
 
@@ -108,7 +149,18 @@ $(document).ready(function(){
             var select = $('form select[name=ticket_registration_id]'); 
             select.empty();
             select.append('<option value="">-- Pilih Tanggal Ibadah --</option>');
+            var remain_slot = $('.remain-slot');    
+            remain_slot.empty();   
         }
     });
+
+    $('#ticket_registration_id').change(function() {
+        if ($(this).val() != '') {
+            change_remain_slot();
+        } else {
+            var remain_slot = $('.remain-slot');    
+            remain_slot.empty();   
+        }
+    })
 });
 

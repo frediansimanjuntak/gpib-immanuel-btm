@@ -34,6 +34,7 @@ Route::delete('/user/{ref_user_id}/family/{user_id}/delete', 'UserController@des
 Route::resource('activity_registrations', 'ActivityRegistrationController');
 Route::get('activity_registrations/activity/{id}/schedule', 'ActivityRegistrationController@getActivitySchedule');
 Route::get('activity_registrations/ticket/{activity_id}/{activity_schedule_id}', 'ActivityRegistrationController@getTicketRegistration');
+Route::get('activity_registrations/remain-slot/{ticket_registration_id}', 'ActivityRegistrationController@getRemainSlot');
 Route::get('activity_registrations/{id}/cancelled/{user_id}', 'ActivityRegistrationController@cancelled')->name('activity_registration.cancelled')->middleware('user');
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('admin')->group(function () {

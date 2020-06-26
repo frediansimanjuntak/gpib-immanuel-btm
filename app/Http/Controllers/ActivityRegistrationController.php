@@ -180,4 +180,10 @@ class ActivityRegistrationController extends Controller
         $current_registration_number = $registration_number + 1 ;
         return $current_registration_number; 
     }
+
+    public function getRemainSlot($id)
+    {
+        $ticket = TicketRegistration::find($id);
+        return $ticket->remaining_slot();
+    }
 }
