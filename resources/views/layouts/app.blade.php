@@ -49,24 +49,32 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('activity_registrations.create') }}">Daftar Ibadah</a>
-                            </li>
-                            <li class="nav-item">
-                                @if (Auth::user()->role == 2)
-                                <a class="nav-link" href="{{ route('admin.home') }}">Admin Panel</a>
-                                @else
-                                <a class="nav-link" href="{{ route('user.profile', Auth::user()->id) }}">Profil</a>
-                                @endif
-                            </li>
+                            @if (Auth::user()->role == 2)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.homepage.users.index') }}">Data User</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.home') }}">Admin Panel</a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('activity_registrations.create') }}">Daftar Ibadah</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('user.profile', Auth::user()->id) }}">Profil</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('user.history', Auth::user()->id) }}">
-                                        History
-                                    </a>
+
+                                    @if (Auth::user()->role == 1)
+                                        <a class="dropdown-item" href="{{ route('user.history', Auth::user()->id) }}">
+                                            History
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

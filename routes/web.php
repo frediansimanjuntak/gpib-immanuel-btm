@@ -51,3 +51,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('admin')-
     Route::get('ticket_registrations/activity/{id}/schedule', 'TicketRegistrationController@getActivitySchedule');
 });
 
+
+Route::namespace('AdminHomepage')->prefix('admin-homepage')->name('admin.homepage.')->middleware('admin')->group(function () {
+    Route::resource('users', 'UserController');
+});
+
