@@ -81,7 +81,7 @@
                                 <div class="form-group">
                                     <label class="col-md-12 control-label @error('full_address') text-danger @enderror" for="inputDefault">Alamat Lengkap *</label>
                                     <div class="col-md-12">
-                                        <textarea rows="5" class="form-control @error('full_address') is-invalid @enderror" name="description">{{ $user_detail->full_address ? $user_detail->full_address : old('full_address') }}</textarea>
+                                        <textarea rows="5" class="form-control @error('full_address') is-invalid @enderror" name="full_address">{{ $user_detail->full_address ? $user_detail->full_address : old('full_address') }}</textarea>
                                         @error('full_address')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

@@ -8,6 +8,7 @@ use App\ActivityRegistration;
 use App\TicketRegistration;
 use App\User;
 use App\UserDetail;
+use Auth;
 use Illuminate\Http\Request;
 
 class ActivityRegistrationController extends Controller
@@ -55,6 +56,12 @@ class ActivityRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+        $current_user = Auth::user();
+        $current_user_detail = $current_user->user_detail;
+        if (empty($current_user_detail->phone_number) || empty($current_user_detail->identity_number) || empty($current_user_detail->full_address)) {
+            return redirect()->route('user.profile', $current_user->id)
+                        ->withErrors(['Maaf, Mohon lengkapi data profil terlebih dahulu']);
+        }
         $this->validate_input($request);
 
         $ticket_registration = TicketRegistration::find($request['ticket_registration_id']);
