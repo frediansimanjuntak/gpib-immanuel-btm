@@ -4,7 +4,8 @@
             <th>No.</th>
             <th>Nomor registrasi</th>
             <th>Nama</th>
-            <th>Phone Number</th>
+            <th>No. Handphone</th>
+            <th>Sektor</th>
             <th>Present</th>
         </tr>
     </thead>
@@ -15,6 +16,7 @@
                 <td>{{$activity->registration_number}}</td>
                 <td>{{$activity->user->name}}</td>
                 <td>{{$activity->user->phone_number()}}</td>
+                <td>{{$activity->user->sektor()}}</td>
                 <td></td>
             </tr>
         @endforeach

@@ -134,6 +134,12 @@
 											<i class="fa fa-building" aria-hidden="true"></i>
 											<span>List User</span>
 										</a>
+									</li>										
+									<li class="{{set_nav_active('admin.user_types.index')}}">
+										<a href="{{route('admin.user_types.index')}}">
+											<i class="fa fa-building" aria-hidden="true"></i>
+											<span>Pengaturan Tipe User</span>
+										</a>
 									</li>					
 								</ul>
                             </nav>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\UserDetail;
+use App\UserType;
 use App\Activity;
 use App\ActivitySchedule;
 use App\ActivityRegistration;
@@ -38,8 +39,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($id)
-    {        
-        return view('user.create');
+    {
+        $user_types = UserType::where('confirmed', true)->pluck('name', 'id');
+        return view('user.create', compact('user_types'));
     }
 
     /**
@@ -50,15 +52,14 @@ class UserController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-        $user = User::find($id);
-        $user_detail = UserDetail::where('user_id', $user->id)->first();
         $email_name = preg_replace('/\s*/', '', $request['name']);
         $email_name = strtolower($email_name);
-
         $request['email'] = $request['email'] ? : $email_name.'@gpibimmanuelbtm.co';
+
+        $this->validate_input($request);
+
+        $user = User::find($id);
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
         $data_user = [
             'password' => Hash::make(\Carbon\Carbon::parse($request['birth_date'])->format('dmY'))
         ];
@@ -72,7 +73,7 @@ class UserController extends Controller
             ];
             UserDetail::create($request->all() + $data_user_detail);
             return redirect()->route('user.profile', $id)
-                            ->with('success','Tambah Keluarga successfully');
+                            ->with('success','Tambah Keluarga Berhasil');
 
         }
     }
@@ -87,6 +88,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
+        $user_types = UserType::where('confirmed', true)->pluck('name', 'id');
         if (!$user_detail) {
             UserDetail::create([
                 'user_id' => $user->id,
@@ -98,7 +100,7 @@ class UserController extends Controller
         }
 
         $family = UserDetail::where('ref_user_id', $user->id)->whereNotIn('user_id', [$user->id])->paginate(10);
-        return view('user.profile', compact('user', 'user_detail', 'family'))
+        return view('user.profile', compact('user', 'user_detail', 'family', 'user_types'))
         ->with('i', (request()->input('page', 1)-1)*10);
     }
 
@@ -122,11 +124,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required',
-        ]);
+        $this->validate_input($request);
+
         $user = User::find($id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
 
@@ -137,7 +136,7 @@ class UserController extends Controller
         $user_detail->update($request->all() + $data_user_details);
 
         return redirect()->route('user.profile', $id)
-                        ->with('success','User updated successfully');
+                        ->with('success','Ubah data profil berhasil');
     }
 
     /**
@@ -174,14 +173,14 @@ class UserController extends Controller
     public function edit_family($ref_user_id, $user_id)
     {
         $user = User::find($user_id);
-        return view('user.edit-family', compact('user'));
+        $user_types = UserType::where('confirmed', true)->pluck('name', 'id');
+        return view('user.edit-family', compact('user', 'user_types'));
     }
 
     public function update_family(Request $request, $ref_user_id, $user_id)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
+        $this->validate_input($request);
+
         $user = User::find($user_id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
 
@@ -192,7 +191,7 @@ class UserController extends Controller
         $user_detail->update($request->all() + $data_user_details);
 
         return redirect()->route('user.profile', $ref_user_id)
-                        ->with('success','User updated successfully');
+                        ->with('success','Ubah data keluarga berhasil');
     }
 
     public function destroy_family($ref_user_id, $user_id)
@@ -205,6 +204,37 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.profile', $ref_user_id)
-                        ->with('success','User deleted successfully');        
+                        ->with('success','Hapus data keluarga berhasil');        
+    }
+
+    private function validate_input($request) 
+    {
+        $rules = [            
+            'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required',
+            'full_address' => 'required',
+            'identity_type' => 'required',
+            'identity_number' => 'required',
+            'family_card_number' => 'required',
+            'birth_place' => 'required',
+            'birth_date' => 'required',
+            'user_type_id' => 'required',
+        ];
+    
+        $customMessages = [
+            'name.required' => 'Nama tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'phone_number.required' => 'No. Handphone tidak boleh kosong',
+            'full_address.required' => 'Alamat tidak boleh kosong',
+            'identity_type.required' => 'Tipe Identitas tidak boleh kosong',
+            'identity_number.required' => 'Nomor Identitas tidak boleh kosong',
+            'family_card_number.required' => 'Nomor Kartu Keluarga tidak boleh kosong',
+            'birth_place.required' => 'Tempat Lahir tidak boleh kosong',
+            'birth_date.required' => 'Tanggal Lahir tidak boleh kosong',
+            'user_type_id.required' => 'Pilih Sektor tidak boleh kosong',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
     }
 }

@@ -9,6 +9,16 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">UBAH DATA KELUARGA</div>
                 <div class="card-body">                    
@@ -17,8 +27,9 @@
                         @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
+                                <input type="hidden" name="email" value="{{$user->email}}">
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Nama Lengkap</label>
+                                    <label class="col-md-12 control-label @error('name') text-danger @enderror" for="inputDefault">Nama Lengkap *</label>
                                     <div class="col-md-12">
                                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$user->user_detail->full_name}}">
                                         @error('name')
@@ -27,9 +38,20 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>  
+                                </div>                                           
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Hubungan Keluarga</label>
+                                    <label class="col-md-12 control-label @error('phone_number') text-danger @enderror" for="inputDefault">No. Handphone *</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror" value="{{$user->user_detail->phone_number}}">
+                                        @error('phone_number')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label @error('family_status') text-danger @enderror" for="inputDefault">Hubungan Keluarga</label>
                                     <div class="col-md-12">
                                         <select class="form-control @error('family_status') is-invalid @enderror" name="family_status">   
                                             <option value="ayah" {{ $user->user_detail->family_status == "ayah" ? "selected" : ""}}>AYAH</option>  
@@ -42,22 +64,11 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>           
+                                </div>  
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">No. Handphone</label>
+                                    <label class="col-md-12 control-label @error('full_address') text-danger @enderror" for="inputDefault">Alamat Lengkap *</label>
                                     <div class="col-md-12">
-                                        <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror" value="{{$user->user_detail->phone_number}}">
-                                        @error('phone_number')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Alamat Lengkap</label>
-                                    <div class="col-md-12">
-                                        <textarea rows="5" class="form-control @error('full_address') is-invalid @enderror" name="description">{{$user->user_detail->full_address}}</textarea>
+                                        <textarea rows="5" class="form-control @error('full_address') is-invalid @enderror" name="full_address">{{$user->user_detail->full_address}}</textarea>
                                         @error('full_address')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -65,10 +76,33 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @if ($user_types)
+                                    <div class="form-group">
+                                        <label class="col-md-12 control-label @error('user_type_id') text-danger @enderror" for="inputDefault">Pilih Sektor *</label>
+                                        <div class="col-md-12">
+                                            <select class="form-control @error('user_type_id') is-invalid @enderror" name="user_type_id" id="user_type_id">   
+                                                <option value="">-- Pilih Sektor --</option>                                      
+                                                @foreach ($user_types as $key => $value)
+                                                <option value="{{ $key }}" {{$user->user_detail->user_type_id == $key ? "selected" : ""}}> 
+                                                    {{ $value }} 
+                                                </option>
+                                                @endforeach    
+                                            </select>
+                                            @error('user_type_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                            <div class="text-primary">
+                                                <strong>Note: Jika bukan warga sidi jemaat, silahkan pilih "Simpatisan"</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-md-6">  
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Tipe Identitas</label>
+                                    <label class="col-md-12 control-label @error('identity_type') text-danger @enderror" for="inputDefault">Tipe Identitas *</label>
                                     <div class="col-md-12">
                                         <select class="form-control @error('identity_type') is-invalid @enderror" name="identity_type">   
                                             <option value="ktp" {{ $user->user_detail->identity_type == "ktp" ? "selected" : ""}}>KTP</option>  
@@ -83,7 +117,7 @@
                                     </div>
                                 </div>                   
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Nomer Identitas</label>
+                                    <label class="col-md-12 control-label @error('identity_number') text-danger @enderror" for="inputDefault">Nomer Identitas *</label>
                                     <div class="col-md-12">
                                         <input type="text" name="identity_number" class="form-control @error('identity_number') is-invalid @enderror" value="{{ $user->user_detail->identity_number }}">
                                         @error('identity_number')
@@ -94,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Nomer Kartu Keluarga</label>
+                                    <label class="col-md-12 control-label @error('family_card_number') text-danger @enderror" for="inputDefault">Nomer Kartu Keluarga *</label>
                                     <div class="col-md-12">
                                         <input type="text" name="family_card_number" class="form-control @error('family_card_number') is-invalid @enderror" value="{{ $user->user_detail->family_card_number }}">
                                         @error('family_card_number')
@@ -105,7 +139,7 @@
                                     </div>
                                 </div>                 
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Jenis Kelamin</label>
+                                    <label class="col-md-12 control-label @error('gender') text-danger @enderror" for="inputDefault">Jenis Kelamin *</label>
                                     <div class="col-md-12">
                                         <select class="form-control @error('gender') is-invalid @enderror" name="gender">   
                                             <option value="laki-laki" {{ $user->user_detail->gender == "laki-laki" ? "selected" : ""}}>LAKI - LAKI</option>  
@@ -119,7 +153,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Tempat Lahir</label>
+                                    <label class="col-md-12 control-label @error('birth_place') text-danger @enderror" for="inputDefault">Tempat Lahir *</label>
                                     <div class="col-md-12">
                                         <input type="text" name="birth_place" class="form-control @error('birth_place') is-invalid @enderror" value="{{ $user->user_detail->birth_place }}">
                                         @error('birth_place')
@@ -130,7 +164,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label" for="inputDefault">Tanggal Lahir</label>
+                                    <label class="col-md-12 control-label @error('birth_date') text-danger @enderror" for="inputDefault">Tanggal Lahir *</label>
                                     <div class="col-md-12">
                                         <input type="date" name="birth_date" class="form-control @error('birth_date') is-invalid @enderror" value="{{ $user->user_detail->birth_date }}">
                                         @error('birth_date')

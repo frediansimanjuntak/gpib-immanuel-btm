@@ -38,7 +38,7 @@
                                             @if($activity_registration->available_registration())
                                                 <a class="btn btn-danger" href="{{ route('activity_registration.cancelled', [$activity_registration->id, Auth::user()->id]) }}">Cancel</a>
                                             @endif
-                                            {{ $activity_registration->cancelled ? "CANCELLED" : "" }}
+                                            <div class="text-danger">{{ $activity_registration->cancelled ? "CANCELLED" : "" }}</div>
                                         </td>                                 
                                     @endif 
                                 </tr>

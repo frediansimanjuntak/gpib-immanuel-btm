@@ -2,7 +2,7 @@
 @section('content')
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Tambah Data Ibadah</h2>
+        <h2>Ubah Tipe User</h2>
     
         <div class="right-wrapper pull-right mr-md">
             <ol class="breadcrumbs mr-xl">
@@ -13,16 +13,16 @@
                 </li>
                 <li>
                     <a href="{{route('admin.activities.index')}}">
-                        <span>Data Ibadah</span>
+                        <span>Tipe User</span>
                     </a>
                 </li>
-                <li><span>Tambah</span></li>
+                <li><span>Ubah</span></li>
             </ol>
         </div>
     </header>
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -39,27 +39,28 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Tambah Data Ibadah</h2>
+                    <h2 class="panel-title">Ubah Tipe User</h2>
                 </header>
                 <div class="panel-body">
-                    <form action="{{ route('admin.activities.store') }}" method="POST">
+                    <form action="{{ route('admin.user_types.update', $user_type->id) }}" method="POST" enctype="multipart/form-data"> 
                         @csrf
+                        @method('PUT')
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">Nama</label>
                             <div class="col-md-9">
-                                <input type="text" name="name" class="form-control" placeholder="Nama">
+                                <input type="text" name="name" value="{{ $user_type->name }}" class="form-control" placeholder="Nama">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">Deskripsi</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" name="description"></textarea>
+                                <textarea class="form-control" id="textareaDefault" name="description">{{ $user_type->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">Confirmed</label>
                             <div class="col-md-9">
-                                <input type="checkbox" name="confirmed">
+                                <input type="checkbox" name="confirmed" {{$user_type->confirmed?'checked':''}}> 
                             </div>
                         </div>
                         <div class="form-group text-right">

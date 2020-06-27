@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="inputDefault">Status</label>
+                                    <label class="col-md-3 control-label" for="inputDefault">Confirmed</label>
                                     <div class="col-md-9">
                                         <input type="checkbox" name="status" {{$ticket->status == "on" ? "checked" : ""}}> 
                                     </div>
@@ -159,6 +159,7 @@
                                     <th>Email</th>
                                     <th>No. Telp</th>
                                     <th>No. Registrasi</th>
+                                    <th>Sektor</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -169,6 +170,7 @@
                                         <td>{{ $activity_registrations->user->email }}</td>
                                         <td>{{ $activity_registrations->user->phone_number() }}</td>
                                         <td>{{ $activity_registrations->registration_number }}</td>
+                                        <td>{{ $activity_registrations->user->sektor() }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

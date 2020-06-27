@@ -2,7 +2,7 @@
 @section('content')
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Tambah Data Ibadah</h2>
+        <h2>Tambah Tipe User</h2>
     
         <div class="right-wrapper pull-right mr-md">
             <ol class="breadcrumbs mr-xl">
@@ -13,7 +13,7 @@
                 </li>
                 <li>
                     <a href="{{route('admin.activities.index')}}">
-                        <span>Data Ibadah</span>
+                        <span>Tipe User</span>
                     </a>
                 </li>
                 <li><span>Tambah</span></li>
@@ -39,10 +39,10 @@
                         <a href="#" class="fa fa-times"></a>
                     </div>
     
-                    <h2 class="panel-title">Tambah Data Ibadah</h2>
+                    <h2 class="panel-title">Tambah Tipe User</h2>
                 </header>
                 <div class="panel-body">
-                    <form action="{{ route('admin.activities.store') }}" method="POST">
+                    <form action="{{ route('admin.user_types.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">Nama</label>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <a class="btn btn-danger" href="{{ route('admin.activities.index') }}"> Kembali</a>
+                            <a class="btn btn-danger" href="{{ route('admin.user_types.index') }}"> Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>

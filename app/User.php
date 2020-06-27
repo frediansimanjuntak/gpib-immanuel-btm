@@ -55,4 +55,11 @@ class User extends Authenticatable
         return UserDetail::where('ref_user_id', $this->id)->get();
 
     }
+
+    public function sektor() 
+    {
+        $user_detail = UserDetail::where('user_id', $this->id)->first();
+        $sektor = $user_detail ? $user_detail->user_type_id ? $user_detail->user_type->name : "-" : "-";
+        return $sektor;
+    }
 }

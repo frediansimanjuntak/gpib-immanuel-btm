@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
@@ -21,7 +26,7 @@
                         @csrf
                         <input type="hidden" name="user" value="{{ Auth::user()->id }}">
                         <div class="form-group">
-                            <label class="col-md-12 control-label" for="inputDefault">Pilih Lokasi Ibadah</label>
+                            <label class="col-md-12 control-label @error('activity_id') text-danger @enderror" for="inputDefault">Pilih Lokasi Ibadah</label>
                             <div class="col-md-12">
                                 <select class="form-control @error('activity_id') is-invalid @enderror" name="activity_id" id="activity_id">   
                                     <option value="">-- Pilih Ibadah --</option>                                      
@@ -39,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-12 control-label" for="inputDefault">Pilih Jadwal Ibadah</label>
+                            <label class="col-md-12 control-label @error('activity_schedule_id') text-danger @enderror" for="inputDefault">Pilih Jadwal Ibadah *</label>
                             <div class="col-md-12">
                                 <select class="form-control @error('activity_schedule_id') is-invalid @enderror" name="activity_schedule_id" id="activity_schedule_id">   
                                     <option value="">-- Pilih Jadwal Ibadah --</option> 
@@ -52,7 +57,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-12 control-label" for="inputDefault">Pilih Tanggal Ibadah</label>
+                            <label class="col-md-12 control-label @error('ticket_registration_id') text-danger @enderror" for="inputDefault">Pilih Tanggal Ibadah *</label>
                             <div class="col-md-12">
                                 <select class="form-control @error('ticket_registration_id') is-invalid @enderror" name="ticket_registration_id" id="ticket_registration_id">   
                                     <option value="">-- Pilih Tanggal Ibadah --</option> 
@@ -71,16 +76,21 @@
                         </div>
                         @if (count(Auth::user()->family_member()) > 1)
                             <div class="form-group">
-                                <label class="col-md-12 control-label" for="inputDefault">Pilih Anggota Keluarga</label>
+                                <label class="col-md-12 control-label @error('user_ids') text-danger @enderror" for="inputDefault">Pilih Anggota Keluarga *</label>
                                 <div class="col-md-12">
                                     @foreach (Auth::user()->family_member() as $family)
                                         <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="user_ids[]" value="{{ $family->user->id }}">
+                                            <label class="@error('ticket_registration_id') text-danger @enderror">
+                                                <input type="checkbox" name="user_ids[]" value="{{ $family->user->id }}" class="@error('user_ids') is-invalid @enderror">
                                                 {{ $family->full_name }}
                                             </label>
                                         </div>                                    
                                     @endforeach
+                                    @error('user_ids')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         @else

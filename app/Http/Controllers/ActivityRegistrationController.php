@@ -55,11 +55,7 @@ class ActivityRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'activity_id' => 'required',
-            'activity_schedule_id' => 'required',
-            'user_ids' => 'required'
-        ]);
+        $this->validate_input($request);
 
         $ticket_registration = TicketRegistration::find($request['ticket_registration_id']);
         if (!$ticket_registration) {
@@ -185,5 +181,24 @@ class ActivityRegistrationController extends Controller
     {
         $ticket = TicketRegistration::find($id);
         return $ticket->remaining_slot();
+    }
+
+    private function validate_input($request) 
+    {
+        $rules = [            
+            'activity_id' => 'required',
+            'activity_schedule_id' => 'required',
+            'ticket_registration_id' => 'required',
+            'user_ids' => 'required'
+        ];
+    
+        $customMessages = [
+            'activity_id.required' => 'Lokasi Ibadah tidak boleh kosong',
+            'activity_schedule_id.required' => 'Jadwal Ibadah tidak boleh kosong',
+            'ticket_registration_id.required' => 'Tanggal Ibadah tidak boleh kosong',
+            'user_ids.required' => 'Jemaat tidak boleh kosong',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
     }
 }
