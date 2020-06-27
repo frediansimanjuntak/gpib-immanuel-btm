@@ -100,9 +100,10 @@
                             </div>
                             <div class="col-md-6">  
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label @error('identity_type') text-danger @enderror" for="inputDefault">Tipe Identitas *</label>
+                                    <label class="col-md-12 control-label @error('identity_type') text-danger @enderror" for="inputDefault">Tipe Identitas</label>
                                     <div class="col-md-12">
-                                        <select class="form-control @error('identity_type') is-invalid @enderror" name="identity_type">   
+                                        <select class="form-control @error('identity_type') is-invalid @enderror" name="identity_type">
+                                            <option value="">-- Pilih Tipe Identitas --</option> 
                                             <option value="ktp" {{ old('identity_type') == "ktp" ? "selected" : ""}}>KTP</option>  
                                             <option value="passport" {{ old('identity_type') == "passport" ? "selected" : ""}}>PASSPORT</option>  
                                             <option value="sim" {{ old('identity_type') == "sim" ? "selected" : ""}}>SIM</option>
@@ -115,7 +116,7 @@
                                     </div>
                                 </div>                   
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label @error('identity_number') text-danger @enderror" for="inputDefault">Nomer Identitas *</label>
+                                    <label class="col-md-12 control-label @error('identity_number') text-danger @enderror" for="inputDefault">Nomer Identitas</label>
                                     <div class="col-md-12">
                                         <input type="text" name="identity_number" class="form-control @error('identity_number') is-invalid @enderror" value="{{ old('identity_number') }}">
                                         @error('identity_number')
@@ -126,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12 control-label @error('family_card_number') text-danger @enderror" for="inputDefault">Nomer Kartu Keluarga *</label>
+                                    <label class="col-md-12 control-label @error('family_card_number') text-danger @enderror" for="inputDefault">Nomer Kartu Keluarga</label>
                                     <div class="col-md-12">
                                         <input type="text" name="family_card_number" class="form-control @error('family_card_number') is-invalid @enderror" value="{{ old('family_card_number') }}">
                                         @error('family_card_number')
@@ -139,7 +140,8 @@
                                 <div class="form-group">
                                     <label class="col-md-12 control-label @error('gender') text-danger @enderror" for="inputDefault">Jenis Kelamin</label>
                                     <div class="col-md-12">
-                                        <select class="form-control @error('gender') is-invalid @enderror" name="gender">   
+                                        <select class="form-control @error('gender') is-invalid @enderror" name="gender">
+                                            <option value="">-- Pilih Jenis Kelamin --</option> 
                                             <option value="laki-laki" {{ old('gender') == "laki-laki" ? "selected" : ""}}>LAKI - LAKI</option>  
                                             <option value="perempuan" {{ old('gender') == "perempuan" ? "selected" : ""}}>PEREMPUAN</option>
                                         </select>
