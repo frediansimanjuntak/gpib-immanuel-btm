@@ -178,6 +178,44 @@
                     </div>
                 </div>
             </section>
+
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>    
+                    <h2 class="panel-title">List Pendaftar Cancel</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table mb-none">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>No. Telp</th>
+                                    <th>No. Registrasi</th>
+                                    <th>Sektor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ticket->cancelled_activity_registration() as $key => $activity_registrations)
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $activity_registrations->user->name }}</td>
+                                        <td>{{ $activity_registrations->user->email }}</td>
+                                        <td>{{ $activity_registrations->user->phone_number() }}</td>
+                                        <td>{{ $activity_registrations->registration_number }}</td>
+                                        <td>{{ $activity_registrations->user->sektor() }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </section>

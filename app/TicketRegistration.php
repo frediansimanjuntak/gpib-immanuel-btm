@@ -43,4 +43,10 @@ class TicketRegistration extends Model
         $ticket_registrations = ActivityRegistration::where('ticket_registration_id', $this->id)->where('cancelled', false)->get();
         return $ticket_registrations;
     }
+
+    public function cancelled_activity_registration()
+    {
+        $ticket_registrations = ActivityRegistration::where('ticket_registration_id', $this->id)->where('cancelled', true)->get();
+        return $ticket_registrations;
+    }
 }
