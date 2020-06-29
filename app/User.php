@@ -59,11 +59,21 @@ class User extends Authenticatable
 
     public function family_member_available_regist_activity()
     {
-        $activity = ActivityRegistration::with(['user.user_detail' => function ($query) {
+        $activity_user_ids = ActivityRegistration::whereHas('user.user_detail',function ($query) {
             $query->where('ref_user_id', $this->id);
-        }])->pluck('user_id');
-        return UserDetail::where('ref_user_id', $this->id)->whereNotIn('user_id', $activity)->get();
+        })->where('cancelled', false)->pluck('user_id');
+        return UserDetail::where('ref_user_id', $this->id)->whereNotIn('user_id', $activity_user_ids)->get();
+    }
 
+    public function family_activity_registered($ticket_id)
+    {
+        $activity_registered_family = ActivityRegistration::whereHas('user.user_detail',function ($query) {
+            $query->where('ref_user_id', $this->id);
+        })->where('cancelled', false)
+        ->where('ticket_registration_id', $ticket_id)
+        ->whereBetween('date', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()])
+        ->get();
+        return $activity_registered_family;
     }
 
     public function sektor() 

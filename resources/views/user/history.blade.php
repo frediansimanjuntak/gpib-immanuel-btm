@@ -28,20 +28,18 @@
                             <tbody>
                                 @foreach ($activity_registrations as $activity_registration)
                                     <tr>
-                                        @if ($activity_registration->user->user_detail && $activity_registration->user->user_detail->ref_user_id == Auth::user()->id)
-                                            <td>{{ ++$i }}</td>
-                                            <td>{{ $activity_registration->registration_number }}</td>
-                                            <td>{{ $activity_registration->user->user_detail->full_name }}</td>
-                                            <td>{{ $activity_registration->activity->name }}</td>
-                                            <td>{{ $activity_registration->activity_schedule->name }} ({{ \Carbon\Carbon::parse($activity_registration->activity_schedule->start_time)->isoFormat('hh:mm')}} - {{ \Carbon\Carbon::parse($activity_registration->activity_schedule->end_time)->isoFormat('hh:mm') }})</td>
-                                            <td>{{ \Carbon\Carbon::parse($activity_registration->date)->isoFormat('dddd, D MMMM Y') }}</td>       
-                                            <td>
-                                                @if($activity_registration->available_registration())
-                                                    <a class="btn btn-danger" href="{{ route('activity_registration.cancelled', [$activity_registration->id, $activity_registration->user->id]) }}">Cancel</a>
-                                                @endif
-                                                <div class="text-danger">{{ $activity_registration->cancelled ? "CANCELLED" : "" }}</div>
-                                            </td>                                 
-                                        @endif 
+                                        <td>{{ ++$i }}</td>
+                                        <td>{{ $activity_registration->registration_number }}</td>
+                                        <td>{{ $activity_registration->user->user_detail->full_name }}</td>
+                                        <td>{{ $activity_registration->activity->name }}</td>
+                                        <td>{{ $activity_registration->activity_schedule->name }} ({{ \Carbon\Carbon::parse($activity_registration->activity_schedule->start_time)->isoFormat('hh:mm')}} - {{ \Carbon\Carbon::parse($activity_registration->activity_schedule->end_time)->isoFormat('hh:mm') }})</td>
+                                        <td>{{ \Carbon\Carbon::parse($activity_registration->date)->isoFormat('dddd, D MMMM Y') }}</td>       
+                                        <td>
+                                            @if($activity_registration->available_registration())
+                                                <a class="btn btn-danger" href="{{ route('activity_registration.cancelled', [$activity_registration->id, $activity_registration->user->id]) }}">Cancel</a>
+                                            @endif
+                                            <div class="text-danger">{{ $activity_registration->cancelled ? "CANCELLED" : "" }}</div>
+                                        </td>  
                                     </tr>
                                 @endforeach
                             </tbody>

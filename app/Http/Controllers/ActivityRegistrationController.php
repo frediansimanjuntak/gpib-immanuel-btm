@@ -156,7 +156,7 @@ class ActivityRegistrationController extends Controller
     {
         $user = User::find($user_id);
         $registration = ActivityRegistration::where('id', $id)->where('user_id', $user->id)->update(['cancelled' => true]);
-        return redirect()->route('user.history', $user->id)
+        return redirect()->route('user.history', Auth::user()->id)
                 ->with('success','Cancel Pendaftaran Ibadah Berhasil.');
     }
 
