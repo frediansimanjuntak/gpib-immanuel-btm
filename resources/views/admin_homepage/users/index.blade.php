@@ -23,7 +23,6 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama</th>
-                                    <th>Email</th>
                                     <th>Phone Number</th>
                                     <th>Referensi User</th>
                                     <th width="280px">Action</th>
@@ -34,7 +33,6 @@
                                     <tr>
                                         <td>{{ ++$i }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone_number() }}</td>
                                         <td>{{ $user->user_detail ? $user->user_detail->ref_user ? $user->user_detail->ref_user->name : "" : "-" }}</td>
                                         <td>
