@@ -217,40 +217,42 @@
                 <div class="card">
                     <div class="card-header">DATA KELUARGA</div>
                     <div class="card-body">
-                        <table class="table mb-none">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Nama</th>
-                                    <th>Hubungan Keluarga</th>
-                                    <th>No. Handphone</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($family as $fam)
+                        <div class="table-responsive">
+                            <table class="table mb-none">
+                                <thead>
                                     <tr>
-                                        <td>{{ ++$i }}</td>
-                                        <td>{{ $fam->user->user_detail->full_name }}</td>
-                                        <td>{{ $fam->family_status }}</td>
-                                        <td>{{ $fam->phone_number }}</td>
-                                        <td>
-                                            <form action="{{ route('user.destroy.family',[Auth::user()->id, $fam->user->id]) }}" method="POST">
-
-                                                <a class="btn btn-primary" href="{{ route('user.edit.family',[Auth::user()->id, $fam->user->id]) }}">Ubah</a>
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
-                                        </td>
+                                        <th>No.</th>
+                                        <th>Nama</th>
+                                        <th>Hubungan Keluarga</th>
+                                        <th>No. Handphone</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- pagination --}}
-                        {!! $family->links() !!}
+                                </thead>
+                                <tbody>
+                                    @foreach ($family as $fam)
+                                        <tr>
+                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $fam->user->user_detail->full_name }}</td>
+                                            <td>{{ $fam->family_status }}</td>
+                                            <td>{{ $fam->phone_number }}</td>
+                                            <td>
+                                                <form action="{{ route('user.destroy.family',[Auth::user()->id, $fam->user->id]) }}" method="POST">
+
+                                                    <a class="btn btn-primary" href="{{ route('user.edit.family',[Auth::user()->id, $fam->user->id]) }}">Ubah</a>
+
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{-- pagination --}}
+                            {!! $family->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>

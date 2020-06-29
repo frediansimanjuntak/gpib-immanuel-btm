@@ -78,13 +78,13 @@
                             <div class="form-group">
                                 <label class="col-md-12 control-label @error('user_ids') text-danger @enderror" for="inputDefault">Pilih Anggota Keluarga *</label>
                                 <div class="col-md-12">
-                                    @foreach (Auth::user()->family_member() as $family)
+                                    @foreach (Auth::user()->family_member_available_regist_activity() as $family)
                                         <div class="checkbox">
                                             <label class="@error('ticket_registration_id') text-danger @enderror">
                                                 <input type="checkbox" name="user_ids[]" value="{{ $family->user->id }}" class="@error('user_ids') is-invalid @enderror">
                                                 {{ $family->full_name }}
                                             </label>
-                                        </div>                                    
+                                        </div>    
                                     @endforeach
                                     @error('user_ids')
                                         <span class="invalid-feedback" role="alert">

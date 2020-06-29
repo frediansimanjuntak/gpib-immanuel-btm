@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\UserDetail;
+use App\ActivityRegistration;
 
 class User extends Authenticatable
 {
@@ -53,6 +54,15 @@ class User extends Authenticatable
     public function family_member()
     {
         return UserDetail::where('ref_user_id', $this->id)->get();
+
+    }
+
+    public function family_member_available_regist_activity()
+    {
+        $activity = ActivityRegistration::with(['user.user_detail' => function ($query) {
+            $query->where('ref_user_id', $this->id);
+        }])->pluck('user_id');
+        return UserDetail::where('ref_user_id', $this->id)->whereNotIn('user_id', $activity)->get();
 
     }
 
