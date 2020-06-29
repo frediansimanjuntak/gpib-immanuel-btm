@@ -73130,6 +73130,13 @@ function date_format(date) {
   return formatted;
 }
 
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(".datepicker").datepicker({
+  // dateFormat: 'dd/mm/yyyy',
+  dateFormat: 'dd/mm/yy',
+  changeMonth: true,
+  changeYear: true,
+  yearRange: "-70:+00"
+});
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   function change_activity_schedule() {
     var activity_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').val();
@@ -73205,18 +73212,8 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
         remain_slot.empty();
       }
     });
-  } // Setup date only sunday endabled
+  }
 
-
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".datepicker").datepicker({
-    beforeShowDay: function beforeShowDay(date) {
-      if (date.getDay() == 0) {
-        return [true, ''];
-      }
-
-      return [false, ''];
-    }
-  });
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#activity_id').change(function () {
     if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() != '') {
       change_activity_schedule();

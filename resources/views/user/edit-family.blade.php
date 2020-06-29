@@ -168,7 +168,7 @@
                                 <div class="form-group">
                                     <label class="col-md-12 control-label @error('birth_date') text-danger @enderror" for="inputDefault">Tanggal Lahir *</label>
                                     <div class="col-md-12">
-                                        <input type="date" name="birth_date" class="form-control @error('birth_date') is-invalid @enderror" value="{{ $user->user_detail->birth_date }}">
+                                        <input type="text" name="birth_date" class="form-control @error('birth_date') is-invalid @enderror datepicker" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $user->user_detail->birth_date)->format('d/m/Y') }}" placeholder="31/12/1993 (tanggal/bulan/tahun)">
                                         @error('birth_date')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

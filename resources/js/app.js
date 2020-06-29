@@ -48,6 +48,14 @@ function date_format(date) {
     return formatted;
 }
 
+$( ".datepicker" ).datepicker({
+    // dateFormat: 'dd/mm/yyyy',
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "-70:+00"
+});
+
 $(document).ready(function(){
 
     function change_activity_schedule(){
@@ -124,17 +132,7 @@ $(document).ready(function(){
         });
     }
 
-    // Setup date only sunday endabled
-    $(".datepicker").datepicker(
-        {
-        beforeShowDay: function (date) {
-
-        if (date.getDay() == 0) {
-            return [true, ''];
-        }
-        return [false, ''];
-    }
-    });
+    
 
     $('#activity_id').change(function() {
         if ($(this).val() != '') {
