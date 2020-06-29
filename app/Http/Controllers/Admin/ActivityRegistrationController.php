@@ -93,8 +93,12 @@ class ActivityRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($ticket_id, $activity_registration_id)
     {
-        //
+        $activity = ActivityRegistration::find($activity_registration_id);
+        $activity->delete();
+
+        return redirect()->route('admin.ticket_registrations.edit', $ticket_id)
+                            ->with('success','Ubah Pendaftaran Ibadah Berhasil.');
     }
 }

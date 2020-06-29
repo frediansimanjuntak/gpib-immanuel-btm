@@ -49,6 +49,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('admin')-
     Route::resource('user_types', 'UserTypeController');
 
     Route::get('ticket_registrations/activity/{id}/schedule', 'TicketRegistrationController@getActivitySchedule');
+    Route::delete('ticket_registrations/{ticket_id}/activity_registration/{activity_registration_id}', 'ActivityRegistrationController@destroy')->name('ticket_registration.activity_registration.destroy');
 });
 
 
