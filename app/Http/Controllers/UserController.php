@@ -59,7 +59,7 @@ class UserController extends Controller
 
         $user_detail = UserDetail::where('user_id', $user->id)->first();
         $data_user = [
-            'password' => Hash::make(\Carbon\Carbon::parse($request['birth_date'])->format('dmY'))
+            'password' => Hash::make(\Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('dmY'))
         ];
         $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
         // Check user email and phone
