@@ -197,16 +197,12 @@ class UserController extends Controller
         $user = User::find($user_id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
         $request['email'] = $this->generate_family_email($request['name']) ;
-        $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
-
         $check_user_detail = UserDetail::where('phone_number', $request['phone_number'])->first();
         if (isset($check_user_detail) && $check_user_detail->user_id != $user_detail->user_id){
             return back()->withInput()->withErrors(['Nomor handphone ini telah digunakan']);
         }
-
         $this->validate_input_edit($request);
-
-
+        $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
         $data_user_details = [
             'full_name' => $request['name'],
         ];
