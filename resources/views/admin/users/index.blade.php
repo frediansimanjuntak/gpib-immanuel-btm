@@ -24,7 +24,7 @@
             @endif
         </div>
         <div class="col-md-6">
-            {{-- <a class="btn btn-success pull-right" href="{{ route('admin.activities.create') }}"> Tambah User</a> --}}
+            <a class="btn btn-success pull-right" href="{{ route('admin.homepage.user.create') }}"> Tambah User</a>
         </div>
     </div>
     <div class="row">

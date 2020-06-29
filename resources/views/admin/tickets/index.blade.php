@@ -73,7 +73,7 @@
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah setuju Pendaftaran Ibadah ini akan dihapus?')">Hapus</button>
                                             </form>
                                         </td>
                                     </tr>

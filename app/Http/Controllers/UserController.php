@@ -238,7 +238,7 @@ class UserController extends Controller
             'phone_number' => ['required', 'max:12', 'unique:user_details'],
             'full_address' => 'required',
             'birth_place' => 'required',
-            'birth_date' => 'required',
+            'birth_date' => ['required', 'date_format:d/m/Y'],
             'user_type_id' => 'required',
         ];
     
@@ -252,6 +252,7 @@ class UserController extends Controller
             'full_address.required' => 'Alamat tidak boleh kosong',
             'birth_place.required' => 'Tempat Lahir tidak boleh kosong',
             'birth_date.required' => 'Tanggal Lahir tidak boleh kosong',
+            'birth_date.date_format' => 'Format Tanggal salah harus "Tanggal/Bulan/Tahun" (31/12/1993)',
             'user_type_id.required' => 'Pilih Sektor tidak boleh kosong',
         ];
 
@@ -266,7 +267,7 @@ class UserController extends Controller
             'phone_number' => ['required', 'max:12'],
             'full_address' => 'required',
             'birth_place' => 'required',
-            'birth_date' => 'required',
+            'birth_date' => ['required', 'date_format:d/m/Y'],
             'user_type_id' => 'required',
         ];
     
@@ -278,6 +279,7 @@ class UserController extends Controller
             'full_address.required' => 'Alamat tidak boleh kosong',
             'birth_place.required' => 'Tempat Lahir tidak boleh kosong',
             'birth_date.required' => 'Tanggal Lahir tidak boleh kosong',
+            'birth_date.date_format' => 'Format Tanggal salah harus "Tanggal/Bulan/Tahun" (31/12/1993)',
             'user_type_id.required' => 'Pilih Sektor tidak boleh kosong',
         ];
 

@@ -176,7 +176,7 @@
                                             <form action="{{ route('admin.ticket_registration.activity_registration.destroy',[$ticket, $activity_registrations->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah setuju User ini akan dihapus dari pendaftaran ibadah?')">Hapus</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -206,6 +206,7 @@
                                     <th>No. Telp</th>
                                     <th>No. Registrasi</th>
                                     <th>Sektor</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -217,6 +218,13 @@
                                         <td>{{ $activity_registrations->user->phone_number() }}</td>
                                         <td>{{ $activity_registrations->registration_number }}</td>
                                         <td>{{ $activity_registrations->user->sektor() }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.ticket_registration.activity_registration.destroy',[$ticket, $activity_registrations->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah setuju User ini akan dihapus dari pendaftaran ibadah?')">Hapus</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

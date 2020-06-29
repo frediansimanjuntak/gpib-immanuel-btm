@@ -36,7 +36,7 @@
                                         <td>{{ \Carbon\Carbon::parse($activity_registration->date)->isoFormat('dddd, D MMMM Y') }}</td>       
                                         <td>
                                             @if($activity_registration->available_registration())
-                                                <a class="btn btn-danger" href="{{ route('activity_registration.cancelled', [$activity_registration->id, $activity_registration->user->id]) }}">Cancel</a>
+                                                <a class="btn btn-danger" onclick="return confirm('Apakah setuju Pendaftaran Ibadah dibatalkan?')" href="{{ route('activity_registration.cancelled', [$activity_registration->id, $activity_registration->user->id]) }}">Cancel</a>
                                             @endif
                                             <div class="text-danger">{{ $activity_registration->cancelled ? "CANCELLED" : "" }}</div>
                                         </td>  

@@ -9,9 +9,9 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
-            {{-- <div class="text-right mb-2">
-                <a class="btn btn-success pull-right" href="{{ route('admin.activities.create') }}"> Tambah Data Ibadah</a>
-            </div> --}}
+            <div class="text-right mb-2">
+                <a class="btn btn-success pull-right" href="{{ route('admin.homepage.users.create') }}"> Tambah User</a>
+            </div>
             <div class="card">
                 <div class="card-header">
                     DATA JEMAAT
@@ -25,7 +25,8 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Phone Number</th>
-                                    <th></th>
+                                    <th>Referensi User</th>
+                                    <th width="280px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,8 +36,18 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone_number() }}</td>
+                                        <td>{{ $user->user_detail ? $user->user_detail->ref_user ? $user->user_detail->ref_user->name : "" : "-" }}</td>
                                         <td>
-                                        </td>   
+                                            <form action="{{ route('admin.homepage.users.destroy',$user->id) }}" method="POST">
+
+                                                <a class="btn btn-primary" href="{{ route('admin.homepage.users.show',$user->id) }}">Detail</a>
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah setuju user ini akan dihapus?')">Hapus</button>
+                                            </form>
+                                        </td> 
                                     </tr>
                                 @endforeach
                             </tbody>
