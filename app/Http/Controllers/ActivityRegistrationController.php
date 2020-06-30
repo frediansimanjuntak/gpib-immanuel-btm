@@ -58,7 +58,7 @@ class ActivityRegistrationController extends Controller
     {
         $current_user = Auth::user();
         $current_user_detail = $current_user->user_detail;
-        if (empty($current_user_detail->phone_number) || empty($current_user_detail->identity_number) || empty($current_user_detail->full_address)) {
+        if (empty($current_user_detail->phone_number) || empty($current_user_detail->full_address)) {
             return redirect()->route('user.profile', $current_user->id)
                         ->withErrors(['Maaf, Mohon lengkapi data profil terlebih dahulu']);
         }
