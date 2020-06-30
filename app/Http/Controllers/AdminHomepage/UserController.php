@@ -117,7 +117,19 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $this->validate_input_edit($request);
+
+        $user_detail = UserDetail::where('user_id', $user->id)->first();
+        $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
+
+        $data_user_details = [
+            'full_name' => $request['name'],
+        ];
+        $user->update($request->all());
+        $user_detail->update($request->all() + $data_user_details);
+
+        return redirect()->route('admin.homepage.users.index')
+            ->with('success','Ubah Data jemaat Berhasil');
     }
 
     /**

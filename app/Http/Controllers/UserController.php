@@ -141,7 +141,11 @@ class UserController extends Controller
         $user = User::find($id);
         $user_detail = UserDetail::where('user_id', $user->id)->first();
         $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
-
+        $check_user_detail = UserDetail::where('phone_number', $request['phone_number'])->first();
+        if (isset($check_user_detail) && $check_user_detail->user_id != $user_detail->user_id){
+            return back()->withInput()->withErrors(['Nomor handphone ini telah digunakan']);
+        }
+        
         $data_user_details = [
             'full_name' => $request['name'],
         ];
