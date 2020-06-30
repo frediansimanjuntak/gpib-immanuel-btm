@@ -70,7 +70,7 @@ class ActivityRegistrationController extends Controller
         } else {
             $user_ids = $request['user_ids'];
             $check_registered = ActivityRegistration::whereIn('user_id', $user_ids)
-                ->where('date', $ticket_registration->date)
+                ->where('ticket_registration_id', $ticket_registration->id)
                 ->where('cancelled', false)
                 ->get();
 
@@ -97,13 +97,14 @@ class ActivityRegistrationController extends Controller
                             'user_id' => $user_id
                         ];
                         ActivityRegistration::create($request->all() + $data);
-                    }
+                    }                    
                     return redirect()->route('user.history', $request['user'])
                         ->with('success','Pendaftaran Ibadah Berhasil.');
                 } else {
                     return back()->withInput()->withErrors(['Maaf, Slot ibadah di gereja sudah penuh']);
                 }
             }
+
         }        
     }
 
@@ -178,7 +179,7 @@ class ActivityRegistrationController extends Controller
         $last_activity = ActivityRegistration::where('activity_id', $activity_id)
                                                 ->where('activity_schedule_id', $activity_schedule_id)
                                                 ->where('ticket_registration_id', $ticket_id)
-                                                ->orderBy('created_at','DESC')->first();
+                                                ->orderBy('id','DESC')->first();
         $registration_number = $last_activity ? $last_activity->registration_number ? : 0 : 0;
         $current_registration_number = $registration_number + 1 ;
         return $current_registration_number; 
