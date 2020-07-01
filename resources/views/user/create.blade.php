@@ -55,6 +55,8 @@
                                             <option value="ayah" {{ old('phone_number') == "ayah" ? "selected" : ""}}>AYAH</option>  
                                             <option value="ibu" {{ old('phone_number') == "ibu" ? "selected" : ""}}>IBU</option>  
                                             <option value="anak" {{ old('phone_number') == "anak" ? "selected" : ""}}>ANAK</option>
+                                            <option value="saudara" {{ $user->user_detail->family_status == "saudara" ? "selected" : ""}}>SAUDARA</option>
+                                            <option value="saudari" {{ $user->user_detail->family_status == "saudari" ? "selected" : ""}}>SAUDARI</option>
                                         </select>
                                         @error('family_status')
                                             <span class="invalid-feedback" role="alert">
