@@ -52,11 +52,11 @@
                                     <label class="col-md-12 control-label" for="inputDefault">Hubungan Keluarga</label>
                                     <div class="col-md-12">
                                         <select class="form-control @error('family_status') is-invalid @enderror" name="family_status">   
-                                            <option value="ayah" {{ old('phone_number') == "ayah" ? "selected" : ""}}>AYAH</option>  
-                                            <option value="ibu" {{ old('phone_number') == "ibu" ? "selected" : ""}}>IBU</option>  
-                                            <option value="anak" {{ old('phone_number') == "anak" ? "selected" : ""}}>ANAK</option>
-                                            <option value="saudara" {{ $user->user_detail->family_status == "saudara" ? "selected" : ""}}>SAUDARA</option>
-                                            <option value="saudari" {{ $user->user_detail->family_status == "saudari" ? "selected" : ""}}>SAUDARI</option>
+                                            <option value="ayah" {{ old('family_status') == "ayah" ? "selected" : ""}}>AYAH</option>  
+                                            <option value="ibu" {{ old('family_status') == "ibu" ? "selected" : ""}}>IBU</option>  
+                                            <option value="anak" {{ old('family_status') == "anak" ? "selected" : ""}}>ANAK</option>
+                                            <option value="saudara" {{ old('family_status') == "saudara" ? "selected" : ""}}>SAUDARA</option>
+                                            <option value="saudari" {{ old('family_status') == "saudari" ? "selected" : ""}}>SAUDARI</option>
                                         </select>
                                         @error('family_status')
                                             <span class="invalid-feedback" role="alert">
