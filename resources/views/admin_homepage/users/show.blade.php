@@ -193,6 +193,32 @@
                                 @endif                                
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="password" class="col-md-12 col-form-label">{{ __('Password') }}</label>
+        
+                                    <div class="col-md-12">
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+        
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="password-confirm" class="col-md-12 col-form-label">{{ __('Confirm Password') }}</label>
+        
+                                    <div class="col-md-12">
+                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <br>
                         <div class="row">
                             <div class="col-md-12">

@@ -56,7 +56,7 @@ class UserController extends Controller
         $email_name = strtolower($email_name);
         $this->validate_input_create($request);
         $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
-        
+        $request['password'] = Hash::make($request['password']);
         $user_created = User::create($request->all());
         if ($user_created) {
             $data_user_detail = [
@@ -121,12 +121,17 @@ class UserController extends Controller
 
         $user_detail = UserDetail::where('user_id', $user->id)->first();
         $request['birth_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request['birth_date'])->format('Y-m-d');
-
+        if ($request['password']){
+            $request['password'] = Hash::make($request['password']);
+        }
         $data_user_details = [
             'full_name' => $request['name'],
         ];
-        $user->update($request->all());
-        $user_detail->update($request->all() + $data_user_details);
+        $request_only = $request->all();
+        $requests_without_null_fields =  array_filter($request_only);
+        
+        $user->update($requests_without_null_fields);
+        $user_detail->update($requests_without_null_fields + $data_user_details);
 
         return redirect()->route('admin.homepage.users.index')
             ->with('success','Ubah Data jemaat Berhasil');
