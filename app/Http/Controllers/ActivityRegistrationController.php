@@ -44,6 +44,8 @@ class ActivityRegistrationController extends Controller
         $activity_schedules = ActivitySchedule::where('confirmed', true)->get();
         
         $current_date = \Carbon\Carbon::now();
+        $current_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $current_date, 'UTC')
+        ->setTimezone('Asia/Jakarta');
         $ticket_registrations = TicketRegistration::whereRaw('"'.$current_date.'" between registration_start_date and registration_end_date')->get();
         return view('user.activity_registrations.create', compact('activities', 'activity_schedules', 'ticket_registrations'));
     }
@@ -170,6 +172,8 @@ class ActivityRegistrationController extends Controller
     public function getTicketRegistration($activity_id, $activity_schedule_id)
     {
         $current_date = \Carbon\Carbon::now();
+        $current_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $current_date, 'UTC')
+        ->setTimezone('Asia/Jakarta');
         $ticket_registrations = TicketRegistration::whereRaw('"'.$current_date.'" between registration_start_date and registration_end_date')->where('activity_id', $activity_id)->where('activity_schedule_id', $activity_schedule_id)->get();
         return $ticket_registrations;
     }

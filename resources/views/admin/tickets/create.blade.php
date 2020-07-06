@@ -99,7 +99,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>                                    
-                                            <input type="date" class="form-control" name="registration_start_date">
+                                            <input type="dateTime-local" class="form-control" name="registration_start_date">
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>                                    
-                                            <input type="date" class="form-control" name="registration_end_date">
+                                            <input type="dateTime-local" class="form-control" name="registration_end_date">
                                         </div>
                                     </div>
                                 </div>

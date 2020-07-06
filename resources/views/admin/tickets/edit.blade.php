@@ -105,7 +105,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>                                    
-                                            <input type="date" class="form-control" name="registration_start_date" value="{{$ticket->registration_start_date}}">
+                                            <input type="dateTime-local" class="form-control" name="registration_start_date" value="{{ date('Y-m-d\TH:i', strtotime($ticket->registration_start_date)) }}">
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                                             <span class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>                                    
-                                            <input type="date" class="form-control" name="registration_end_date" value="{{$ticket->registration_end_date}}">
+                                            <input type="dateTime-local" class="form-control" name="registration_end_date" value="{{ date('Y-m-d\TH:i', strtotime($ticket->registration_end_date)) }}">
                                         </div>
                                     </div>
                                 </div>
