@@ -60,8 +60,11 @@ class User extends Authenticatable
     public function family_member_available_regist_activity()
     {
         $activity_user_ids = ActivityRegistration::whereHas('user.user_detail',function ($query) {
-            $query->where('ref_user_id', $this->id);
-        })->where('cancelled', false)->pluck('user_id');
+                $query->where('ref_user_id', $this->id);
+            })
+            ->where('cancelled', false)
+            ->whereBetween('date', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()])
+            ->pluck('user_id');
         return UserDetail::where('ref_user_id', $this->id)->whereNotIn('user_id', $activity_user_ids)->get();
     }
 
